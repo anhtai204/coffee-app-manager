@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".activity.user.CaPheFragment"
+    android:orientation="vertical">
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_layout_ca_phe"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tabSelectedTextColor="#836b68"
+        app:tabIndicatorHeight="2dp"
+        app:tabIndicatorFullWidth="true"
+        app:tabIndicatorColor="#836b68"
+        app:tabIndicatorAnimationMode="fade"
+        android:paddingBottom="2dp"
+        android:paddingTop="10dp"
+        app:tabMode="fixed">
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tabTatCa_caphe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tất cả"/>
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tabXepHang_caphe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Xếp hạng"/>
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tabGia_caphe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Giá"/>
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tabKhuyenMai_caphe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Khuyến mại"/>
+
+    </com.google.android.material.tabs.TabLayout>
+
+
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager_sanPham_loc_caphe"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal"/>
+
+</LinearLayout>

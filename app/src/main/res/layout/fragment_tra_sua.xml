@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".activity.user.TraSuaFragment"
+    android:orientation="vertical">
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_layout_tra_sua"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tabSelectedTextColor="#836b68"
+        app:tabIndicatorHeight="5dp"
+        app:tabIndicatorFullWidth="true"
+        app:tabIndicatorColor="#836b68"
+        android:paddingBottom="2dp"
+        app:tabMode="fixed">
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tabTatCa_trasua"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tất cả" />
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tabXepHang_trasua"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Xếp hạng"/>
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tabGia_trasua"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Giá"/>
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tabKhuyenMai_trasua"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Khuyến mại"/>
+    </com.google.android.material.tabs.TabLayout>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager_sanPham_loc_trasua"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal"/>
+</LinearLayout>

@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Coffee App Manage</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="home_user_fragment">Home</string>
+    <string name="order_user_fragment">Order</string>
+    <string name="account_user_fragment">Account</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="ca_phe_fragment">Cà phê</string>
+    <string name="tra_sua_fragment">Trà sữa</string>
+    <string name="sinh_to_fragment">Sinh tố</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="tat_ca_ca_phe_fragment">Tất cả cà phê</string>
+    <string name="xep_hang_ca_phe_fragment">Xếp hạng cà phê</string>
+    <string name="gia_ca_phe_fragment">Giá cà phê</string>
+    <string name="khuyen_mai_ca_phe_fragment">Khuyến mại phê</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+</resources>

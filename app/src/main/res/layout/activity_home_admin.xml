@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.admin.HomeAdminActivity">
+
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal" />
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tabSelectedTextColor="@android:color/holo_green_dark"
+        app:tabIndicatorHeight="5dp"
+        android:paddingBottom="2dp"
+        app:tabMode="fixed">
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tab1"
+            android:icon="@drawable/baseline_home_24"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Trang chủ" />
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tab2"
+            android:icon="@drawable/baseline_shopping_cart_24"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Lịch sử"/>
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tab3"
+            android:icon="@drawable/baseline_person_24"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tài khoản"/>
+    </com.google.android.material.tabs.TabLayout>
+
+</LinearLayout>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".activity.user.HomeUserFragment"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_layout_san_pham"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tabSelectedTextColor="#836b68"
+        app:tabIndicatorHeight="5dp"
+        app:tabIndicatorFullWidth="true"
+        app:tabIndicatorColor="#836b68"
+        android:paddingBottom="2dp"
+        app:tabMode="fixed">
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tabCaPhe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cà phê" />
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tabTraSua"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Trà sữa"/>
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tabSinhTo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sinh tổ"/>
+    </com.google.android.material.tabs.TabLayout>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager_sanPham"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal"/>
+
+</LinearLayout>

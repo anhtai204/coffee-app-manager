@@ -1,0 +1,17 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Background khi tab được chọn -->
+    <item android:state_selected="true">
+        <shape android:shape="rectangle">
+            <solid android:color="#4d2d24"/> <!-- Màu nâu khi được chọn -->
+            <corners android:radius="10dp"/>
+        </shape>
+    </item>
+
+    <!-- Background khi tab không được chọn -->
+    <item android:state_selected="false">
+        <shape android:shape="rectangle">
+            <solid android:color="#cbcbcb"/> <!-- Màu xám khi không chọn -->
+            <corners android:radius="10dp"/>
+        </shape>
+    </item>
+</selector>
