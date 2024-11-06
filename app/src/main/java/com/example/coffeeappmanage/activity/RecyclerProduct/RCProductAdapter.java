@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.coffeeappmanage.R;
 import com.example.coffeeappmanage.activity.user.OrderProductActivity;
 import com.example.coffeeappmanage.model.Product;
+import com.example.coffeeappmanage.model.User;
 
 import java.io.Console;
 import java.text.DecimalFormat;
@@ -28,10 +29,12 @@ public class RCProductAdapter extends RecyclerView.Adapter<RCProductAdapter.Prod
 
     Context context;
     List<Product> modelArrayList;
+    private User user;
 
-    public RCProductAdapter(Context context, List<Product> modelArrayList) {
+    public RCProductAdapter(Context context, List<Product> modelArrayList, User user) {
         this.context = context;
         this.modelArrayList = modelArrayList;
+        this.user = user;
     }
 
     public void setData(List<Product> list){
@@ -106,6 +109,7 @@ public class RCProductAdapter extends RecyclerView.Adapter<RCProductAdapter.Prod
                         Intent intent = new Intent(context, OrderProductActivity.class);
                         Bundle bundle = new Bundle();
                         bundle.putSerializable("product", clickedProduct);
+                        bundle.putSerializable("user", user);
 
                         intent.putExtras(bundle);
                         context.startActivity(intent);

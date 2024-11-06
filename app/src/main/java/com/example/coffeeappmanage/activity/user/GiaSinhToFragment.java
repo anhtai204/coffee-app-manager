@@ -17,6 +17,7 @@ import com.example.coffeeappmanage.activity.RecyclerProduct.RCProductAdapter;
 import com.example.coffeeappmanage.api.ApiService;
 import com.example.coffeeappmanage.model.Product;
 import com.example.coffeeappmanage.model.ResponseProduct;
+import com.example.coffeeappmanage.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +32,7 @@ public class GiaSinhToFragment extends Fragment {
     private RecyclerView recyclerViewSinhTo;
     List<Product> listProducts;
     RCProductAdapter rcProductAdapter;
+    private User user;
 
     public GiaSinhToFragment() {
         // Required empty public constructor
@@ -48,12 +50,21 @@ public class GiaSinhToFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_gia_sinh_to, container, false);
 
+        // Nhận đối tượng User từ Bundle
+        if (getArguments() != null) {
+            user = (User) getArguments().getSerializable("user");
+
+            if (user != null) {
+                Log.d("GiaSinhToFragment", "User: " + user.toString());
+            }
+        }
+
         recyclerViewSinhTo = view.findViewById(R.id.recyclerViewSinhTo);
         recyclerViewSinhTo.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerViewSinhTo.setHasFixedSize(true);
         listProducts = new ArrayList<>();
 
-        rcProductAdapter = new RCProductAdapter(getContext(), listProducts);
+        rcProductAdapter = new RCProductAdapter(getContext(), listProducts, user);
         recyclerViewSinhTo.setAdapter(rcProductAdapter); // Thiết lập adapter ngay lập tức
 
         ApiService.apiService.getSinhToFilterCost().enqueue(new Callback<ResponseProduct>() {

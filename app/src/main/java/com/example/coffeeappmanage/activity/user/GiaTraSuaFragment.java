@@ -17,6 +17,7 @@ import com.example.coffeeappmanage.activity.RecyclerProduct.RCProductAdapter;
 import com.example.coffeeappmanage.api.ApiService;
 import com.example.coffeeappmanage.model.Product;
 import com.example.coffeeappmanage.model.ResponseProduct;
+import com.example.coffeeappmanage.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +32,7 @@ public class GiaTraSuaFragment extends Fragment {
     private RecyclerView recyclerViewTraSua;
     List<Product> listProducts;
     RCProductAdapter rcProductAdapter;
+    private User user;
 
     public GiaTraSuaFragment() {
         // Required empty public constructor
@@ -47,12 +49,21 @@ public class GiaTraSuaFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_gia_tra_sua, container, false);
 
+        // Nhận đối tượng User từ Bundle
+        if (getArguments() != null) {
+            user = (User) getArguments().getSerializable("user");
+
+            if (user != null) {
+                Log.d("GiaTraSuaFragment", "User: " + user.toString());
+            }
+        }
+
         recyclerViewTraSua = view.findViewById(R.id.recyclerViewTraSua);
         recyclerViewTraSua.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerViewTraSua.setHasFixedSize(true);
         listProducts = new ArrayList<>();
 
-        rcProductAdapter = new RCProductAdapter(getContext(), listProducts);
+        rcProductAdapter = new RCProductAdapter(getContext(), listProducts, user);
         recyclerViewTraSua.setAdapter(rcProductAdapter); // Thiết lập adapter ngay lập tức
 
         ApiService.apiService.getTraSuaFilterCost().enqueue(new Callback<ResponseProduct>() {

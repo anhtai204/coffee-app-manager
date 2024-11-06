@@ -11,6 +11,7 @@ import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,14 +21,16 @@ import android.widget.ListView;
 
 import com.example.coffeeappmanage.R;
 import com.example.coffeeappmanage.activity.effect.ZoomOutPageTransformer;
+import com.example.coffeeappmanage.model.User;
 import com.google.android.material.tabs.TabLayout;
 
 
 
-public class    CaPheFragment extends Fragment {
+public class CaPheFragment extends Fragment {
 
     private TabLayout tab_layout_ca_phe;
     private ViewPager2 viewPager_sanPham_loc_caphe;
+    private User user;
 
     public CaPheFragment() {
         // Required empty public constructor
@@ -46,11 +49,21 @@ public class    CaPheFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_ca_phe, container, false);
 
+        // Nhận đối tượng User từ Bundle
+        if (getArguments() != null) {
+            user = (User) getArguments().getSerializable("user");
+
+            if (user != null) {
+                Log.d("CaPheFragment", "User: " + user.toString());
+            }
+        }
+
+
         tab_layout_ca_phe = view.findViewById(R.id.tab_layout_ca_phe);
         viewPager_sanPham_loc_caphe = view.findViewById(R.id.viewPager_sanPham_loc_caphe);
 
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        CaPheAdapter caPheAdapter = new CaPheAdapter(fragmentManager, getLifecycle());
+        CaPheAdapter caPheAdapter = new CaPheAdapter(fragmentManager, getLifecycle(), user);
 
         viewPager_sanPham_loc_caphe.setAdapter(caPheAdapter);
 

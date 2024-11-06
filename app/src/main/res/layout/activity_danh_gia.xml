@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.user.DanhGiaActivity">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+        
+        <ImageView
+            android:layout_marginTop="-6dp"
+            android:src="@drawable/rate"
+            android:layout_width="wrap_content"
+            android:layout_height="200dp"/>
+
+        <LinearLayout
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="10pt"
+                android:textColor="@color/brown"
+                android:textAlignment="center"
+                android:textStyle="bold"
+                android:text="Bạn thấy đồ uống như thế nào ?"/>
+
+            <TextView
+                android:layout_marginTop="10dp"
+                android:text="Xếp hạng"
+                android:textColor="@color/brown"
+                android:textStyle="bold"
+                android:textSize="8pt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <LinearLayout
+                android:layout_marginTop="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+                <RatingBar
+                    android:id="@+id/rateStar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <TextView
+                android:layout_marginTop="6dp"
+                android:text="Đánh giá"
+                android:textColor="@color/brown"
+                android:textStyle="bold"
+                android:textSize="8pt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="320dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="4dp"
+                app:cardCornerRadius="4dp"
+                android:layout_gravity="center">
+
+                <EditText
+                    android:id="@+id/edtDanhGia"
+                    android:layout_width="match_parent"
+                    android:layout_height="82dp"
+                    android:textSize="6pt"
+                    android:background="@null"
+                    android:gravity="top"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:hint="Hãy cho chúng tôi biết về đánh giá của bạn"/>
+
+            </androidx.cardview.widget.CardView>
+            
+            <TextView
+                android:layout_marginTop="8dp"
+                android:textSize="5pt"
+                android:textStyle="bold"
+                android:text="Đánh giá của bạn sẽ được hiển thị công khai"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <androidx.cardview.widget.CardView
+                android:layout_marginTop="15dp"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                app:cardCornerRadius="10dp"
+                android:backgroundTint="@color/brown"
+                android:layout_gravity="center">
+
+                <TextView
+                    android:id="@+id/btnGuiDanhGia"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Gửi đánh giá"
+                    android:textColor="#fff"
+                    android:gravity="center_vertical|center_horizontal"/>
+
+            </androidx.cardview.widget.CardView>
+
+
+
+
+        </LinearLayout>
+
+
+
+
+
+        
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

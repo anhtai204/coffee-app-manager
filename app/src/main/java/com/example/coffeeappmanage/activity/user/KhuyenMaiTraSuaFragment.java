@@ -17,6 +17,7 @@ import com.example.coffeeappmanage.activity.RecyclerProduct.RCProductAdapter;
 import com.example.coffeeappmanage.api.ApiService;
 import com.example.coffeeappmanage.model.Product;
 import com.example.coffeeappmanage.model.ResponseProduct;
+import com.example.coffeeappmanage.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,7 @@ public class KhuyenMaiTraSuaFragment extends Fragment {
     private RecyclerView recyclerViewTraSua;
     List<Product> listProducts;
     RCProductAdapter rcProductAdapter;
+    private User user;
 
     public KhuyenMaiTraSuaFragment() {
         // Required empty public constructor
@@ -45,12 +47,21 @@ public class KhuyenMaiTraSuaFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_khuyen_mai_tra_sua, container, false);
 
+        // Nhận đối tượng User từ Bundle
+        if (getArguments() != null) {
+            user = (User) getArguments().getSerializable("user");
+
+            if (user != null) {
+                Log.d("KhuyenMaiTraSuaFragment", "User: " + user.toString());
+            }
+        }
+
         recyclerViewTraSua = view.findViewById(R.id.recyclerViewTraSua);
         recyclerViewTraSua.setLayoutManager(new LinearLayoutManager(requireContext())); // Sử dụng requireContext()
         recyclerViewTraSua.setHasFixedSize(true);
         listProducts = new ArrayList<>();
 
-        rcProductAdapter = new RCProductAdapter(requireContext(), listProducts);
+        rcProductAdapter = new RCProductAdapter(requireContext(), listProducts, user);
         recyclerViewTraSua.setAdapter(rcProductAdapter); // Gán adapter
 
         // Gọi API

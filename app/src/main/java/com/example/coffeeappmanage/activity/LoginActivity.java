@@ -115,6 +115,10 @@ public class LoginActivity extends AppCompatActivity {
                                 check = true;
                                 if(finalRole == 1 ){
                                     Intent intent = new Intent(LoginActivity.this, HomeUserActivity.class);
+                                    Bundle data = new Bundle();
+                                    data.putSerializable("user", user);
+//                                    Log.d("user", user.toString());
+                                    intent.putExtras(data);
                                     startActivity(intent);
                                 } else if(finalRole == 2){
                                     Intent intent = new Intent(LoginActivity.this, HomeAdminActivity.class);

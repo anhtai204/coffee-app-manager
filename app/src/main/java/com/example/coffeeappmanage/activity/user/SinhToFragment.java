@@ -6,12 +6,14 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.coffeeappmanage.R;
 import com.example.coffeeappmanage.activity.effect.ZoomOutPageTransformer;
+import com.example.coffeeappmanage.model.User;
 import com.google.android.material.tabs.TabLayout;
 
 
@@ -19,6 +21,7 @@ public class SinhToFragment extends Fragment {
 
     private TabLayout tab_layout_sinh_to;
     private ViewPager2 viewPager_sanPham_loc_sinhto;
+    private User user;
 
     public SinhToFragment() {
         // Required empty public constructor
@@ -37,11 +40,20 @@ public class SinhToFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_sinh_to, container, false);
 
+        // Nhận đối tượng User từ Bundle
+        if (getArguments() != null) {
+            user = (User) getArguments().getSerializable("user");
+
+            if (user != null) {
+                Log.d("SinhToFragment", "User: " + user.toString());
+            }
+        }
+
         tab_layout_sinh_to = view.findViewById(R.id.tab_layout_sinh_to);
         viewPager_sanPham_loc_sinhto = view.findViewById(R.id.viewPager_sanPham_loc_sinhto);
 
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        SinhToAdapter sinhToAdapter = new SinhToAdapter(fragmentManager, getLifecycle());
+        SinhToAdapter sinhToAdapter = new SinhToAdapter(fragmentManager, getLifecycle(), user);
 
         viewPager_sanPham_loc_sinhto.setAdapter(sinhToAdapter);
 

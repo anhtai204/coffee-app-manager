@@ -1,16 +1,146 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.user.AccountUserFragment"
-    android:background="@android:color/holo_green_dark">
+    android:orientation="vertical"
+    tools:context=".activity.user.AccountUserFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/account_user_fragment"
-        android:textColor="@color/white"/>
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:orientation="vertical">
 
-</FrameLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/custom_break_line"/>
+
+
+        <TextView
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Email"
+            android:textColor="@color/brown"
+            android:textSize="10pt"/>
+
+
+
+        <TextView
+            android:paddingBottom="8dp"
+            android:id="@+id/tvEmail_Account"
+            android:layout_width="match_parent"
+            android:text="a@gmail.com"
+            android:textSize="9pt"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/custom_break_line"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="22dp"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/imgPhanHoi"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/baseline_feedback_24"/>
+
+            <TextView
+                android:id="@+id/tvPhanHoi"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="4dp"
+                android:gravity="center"
+                android:text="Phản hồi"
+                android:textColor="#000"
+                android:textSize="8pt" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="22dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/imgLienHe"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/baseline_contact_phone_24"/>
+
+            <TextView
+                android:id="@+id/tvLienHe"
+                android:textColor="#000"
+                android:textSize="8pt"
+                android:gravity="center"
+                android:layout_marginLeft="4dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Liên hệ"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="22dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/imgDoiMatKhau"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/baseline_manage_accounts_24"/>
+
+            <TextView
+                android:id="@+id/tvDoiMatKhau"
+                android:textColor="#000"
+                android:textSize="8pt"
+                android:gravity="center"
+                android:layout_marginLeft="4dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Đổi mật khẩu"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/imgDangXuat"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/baseline_logout_24"/>
+
+            <TextView
+                android:id="@+id/tvDangXuat"
+                android:textColor="#000"
+                android:gravity="center"
+                android:textSize="8pt"
+                android:layout_marginLeft="4dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Đăng xuất"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>

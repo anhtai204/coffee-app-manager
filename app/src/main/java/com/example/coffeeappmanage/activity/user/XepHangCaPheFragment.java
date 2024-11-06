@@ -20,6 +20,7 @@ import com.example.coffeeappmanage.model.Product;
 import com.example.coffeeappmanage.model.RateProduct;
 import com.example.coffeeappmanage.model.ResponseProduct;
 import com.example.coffeeappmanage.model.ResponseRateProduct;
+import com.example.coffeeappmanage.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,8 +32,10 @@ import retrofit2.Response;
 public class XepHangCaPheFragment extends Fragment {
 
     private RecyclerView recyclerViewCaPhe;
-    List<RateProduct> listRateProducts;
+//    List<RateProduct> listRateProducts;
+    List<Product> listRateProducts;
     RCRateProductAdapter rcRateProductAdapter;
+    private User user;
 
 
     public XepHangCaPheFragment() {
@@ -50,20 +53,58 @@ public class XepHangCaPheFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_xep_hang_ca_phe, container, false);
 
+        // Nhận đối tượng User từ Bundle
+        if (getArguments() != null) {
+            user = (User) getArguments().getSerializable("user");
+
+            if (user != null) {
+                Log.d("XepHangCaPheFragment user: ",  user.toString());
+            }
+        }
+
         recyclerViewCaPhe = view.findViewById(R.id.recyclerViewCaPhe);
         recyclerViewCaPhe.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerViewCaPhe.setHasFixedSize(true);
         listRateProducts = new ArrayList<>();
 
-        rcRateProductAdapter = new RCRateProductAdapter(getContext(), listRateProducts);
+        rcRateProductAdapter = new RCRateProductAdapter(getContext(), listRateProducts, user);
         recyclerViewCaPhe.setAdapter(rcRateProductAdapter);
 
-        ApiService.apiService.getCoffeeFilterRate().enqueue(new Callback<ResponseRateProduct>() {
+//        ApiService.apiService.getCoffeeFilterRate().enqueue(new Callback<ResponseRateProduct>() {
+//            @Override
+//            public void onResponse(Call<ResponseRateProduct> call, Response<ResponseRateProduct> response) {
+//                if (response.isSuccessful() && response.body() != null) {
+//                    ResponseRateProduct responseRateProduct = response.body();
+//                    List<RateProduct> productListCallApi = responseRateProduct.getData();
+//                    int statusCode = responseRateProduct.getStatusCode();
+//                    String message = responseRateProduct.getMessage();
+//
+//                    Log.e("call rate product", productListCallApi.toString());
+//
+//                    listRateProducts.clear(); // Xóa danh sách cũ
+//                    listRateProducts.addAll(productListCallApi); // Thêm dữ liệu mới vào list
+//                    rcRateProductAdapter.notifyDataSetChanged(); // Cập nhật adapter
+//
+//                    Log.e("rate product", listRateProducts.toString());
+//                }
+//
+//                Log.e("tesst", response.body().getData().toString());
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ResponseRateProduct> call, Throwable throwable) {
+//                Toast.makeText(getContext(), "Call api failed" + throwable.toString(), Toast.LENGTH_SHORT).show();
+//                Log.e("failed", throwable.toString());
+//            }
+//        });
+
+        ApiService.apiService.getCoffeeFilterRate().enqueue(new Callback<ResponseProduct>() {
             @Override
-            public void onResponse(Call<ResponseRateProduct> call, Response<ResponseRateProduct> response) {
+            public void onResponse(Call<ResponseProduct> call, Response<ResponseProduct> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    ResponseRateProduct responseRateProduct = response.body();
-                    List<RateProduct> productListCallApi = responseRateProduct.getData();
+                    ResponseProduct responseRateProduct = response.body();
+                    List<Product> productListCallApi = responseRateProduct.getData();
                     int statusCode = responseRateProduct.getStatusCode();
                     String message = responseRateProduct.getMessage();
 
@@ -75,15 +116,11 @@ public class XepHangCaPheFragment extends Fragment {
 
                     Log.e("rate product", listRateProducts.toString());
                 }
-
-                Log.e("tesst", response.body().getData().toString());
-
             }
 
             @Override
-            public void onFailure(Call<ResponseRateProduct> call, Throwable throwable) {
-                Toast.makeText(getContext(), "Call api failed" + throwable.toString(), Toast.LENGTH_SHORT).show();
-                Log.e("failed", throwable.toString());
+            public void onFailure(Call<ResponseProduct> call, Throwable throwable) {
+
             }
         });
 

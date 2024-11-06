@@ -81,4 +81,14 @@ public class RateProduct implements Serializable {
                 ", average_rating=" + average_rating +
                 '}';
     }
+
+//    public Product convertToProduct(){
+//        int id_product;
+//        String ten_the_loai;
+//        String tenSanPham;
+//        float giaSanPham;
+//        float khuyenmai_gia;
+//        float average_rating;
+//
+//    }
 }

@@ -18,6 +18,7 @@ import com.example.coffeeappmanage.R;
 import com.example.coffeeappmanage.activity.user.OrderProductActivity;
 import com.example.coffeeappmanage.model.Product;
 import com.example.coffeeappmanage.model.RateProduct;
+import com.example.coffeeappmanage.model.User;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -25,14 +26,27 @@ import java.util.List;
 public class RCRateProductAdapter extends RecyclerView.Adapter<RCRateProductAdapter.RateProductViewHolder> {
 
     Context context;
-    List<RateProduct> modelArrayList;
+//    List<RateProduct> modelArrayList;
+    List<Product> modelArrayList;
+    private User user;
 
-    public RCRateProductAdapter(Context context, List<RateProduct> modelArrayList) {
+//    public RCRateProductAdapter(Context context, List<RateProduct> modelArrayList) {
+//        this.context = context;
+//        this.modelArrayList = modelArrayList;
+//    }
+//
+//    public void setData(List<RateProduct> list){
+//        this.modelArrayList = list;
+//        notifyDataSetChanged();
+//    }
+
+    public RCRateProductAdapter(Context context, List<Product> modelArrayList, User user) {
         this.context = context;
         this.modelArrayList = modelArrayList;
+        this.user = user;
     }
 
-    public void setData(List<RateProduct> list){
+    public void setData(List<Product> list){
         this.modelArrayList = list;
         notifyDataSetChanged();
     }
@@ -47,12 +61,12 @@ public class RCRateProductAdapter extends RecyclerView.Adapter<RCRateProductAdap
 
     @Override
     public void onBindViewHolder(@NonNull RateProductViewHolder holder, int position) {
-        RateProduct product = modelArrayList.get(position);
+        Product product = modelArrayList.get(position);
         holder.rc_ten_sp_rate.setText(product.getTenSanPham());
         holder.rc_gioi_thieu_rate.setText("Xin chao");
 
         DecimalFormat formatStar = new DecimalFormat("0.0");
-        String formatted_star = formatStar.format(product.getAverage_rating());
+        String formatted_star = formatStar.format(product.getAverage_star());
         holder.rc_star_rate.setText(formatted_star);
 
         float gia_sp = product.getGiaSanPham() - product.getKhuyenmai_gia();
@@ -95,21 +109,25 @@ public class RCRateProductAdapter extends RecyclerView.Adapter<RCRateProductAdap
                     // Xử lý sự kiện khi người dùng nhấn vào sản phẩm
                     int position = getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION) {
-                        RateProduct clickedProduct = modelArrayList.get(position);
+//                        RateProduct clickedProduct = modelArrayList.get(position);
+                        Product clickedProduct = modelArrayList.get(position);
                         Log.e("product clicked", clickedProduct.toString());
                         Toast.makeText(itemView.getContext(), "Product: " + clickedProduct.getTenSanPham().toString(), Toast.LENGTH_SHORT).show();
                         // Thực hiện hành động mong muốn (ví dụ: mở chi tiết sản phẩm)
 
-//                        Intent intent = new Intent(context, OrderProductActivity.class);
-//                        Bundle bundle = new Bundle();
-//                        bundle.putSerializable("product", clickedProduct);
-//
-//                        intent.putExtras(bundle);
-//                        context.startActivity(intent);
+                        Intent intent = new Intent(context, OrderProductActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("product", clickedProduct);
+                        bundle.putSerializable("user", user);
+
+                        intent.putExtras(bundle);
+                        context.startActivity(intent);
                     }
                 }
             });
 
         }
     }
+
+
 }

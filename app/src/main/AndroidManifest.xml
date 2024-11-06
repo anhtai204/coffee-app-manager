@@ -16,6 +16,15 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".activity.user.LienHeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.user.PhanHoiActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.user.DanhGiaActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.user.OrderProductActivity"
             android:exported="false" />
         <activity

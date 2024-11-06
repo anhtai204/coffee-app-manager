@@ -15,6 +15,14 @@ public class User implements Serializable {
         this.id_role = id_role;
     }
 
+    public int getId_user() {
+        return id_user;
+    }
+
+    public void setId_user(int id_user) {
+        this.id_user = id_user;
+    }
+
     public String getEmail() {
         return email;
     }

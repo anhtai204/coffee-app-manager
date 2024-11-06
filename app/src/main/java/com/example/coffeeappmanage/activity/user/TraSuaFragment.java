@@ -6,18 +6,21 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.coffeeappmanage.R;
 import com.example.coffeeappmanage.activity.effect.ZoomOutPageTransformer;
+import com.example.coffeeappmanage.model.User;
 import com.google.android.material.tabs.TabLayout;
 
 public class TraSuaFragment extends Fragment {
 
     private TabLayout tab_layout_tra_sua;
     private ViewPager2 viewPager_sanPham_loc_trasua;
+    private User user;
 
     public TraSuaFragment() {
         // Required empty public constructor
@@ -35,12 +38,21 @@ public class TraSuaFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_tra_sua, container, false);
 
+        // Nhận đối tượng User từ Bundle
+        if (getArguments() != null) {
+            user = (User) getArguments().getSerializable("user");
+
+            if (user != null) {
+                Log.d("CTraSuaFragment", "User: " + user.toString());
+            }
+        }
+
 
         tab_layout_tra_sua = view.findViewById(R.id.tab_layout_tra_sua);
         viewPager_sanPham_loc_trasua = view.findViewById(R.id.viewPager_sanPham_loc_trasua);
 
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        TraSuaAdapter traSuaAdapter = new TraSuaAdapter(fragmentManager, getLifecycle());
+        TraSuaAdapter traSuaAdapter = new TraSuaAdapter(fragmentManager, getLifecycle(), user);
 
         viewPager_sanPham_loc_trasua.setAdapter(traSuaAdapter);
 

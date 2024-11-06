@@ -1,6 +1,7 @@
 package com.example.coffeeappmanage.activity.user;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -17,6 +18,8 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.coffeeappmanage.R;
 import com.example.coffeeappmanage.activity.effect.DepthPageTransformer;
+import com.example.coffeeappmanage.model.Product;
+import com.example.coffeeappmanage.model.User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.tabs.TabLayout;
@@ -27,9 +30,6 @@ public class HomeUserActivity extends AppCompatActivity {
     // Quản lý phần navigation home, order, account
     private BottomNavigationView navigationView;
     private ViewPager2 viewPager;
-
-
-
 
 
     @Override
@@ -43,12 +43,21 @@ public class HomeUserActivity extends AppCompatActivity {
             return insets;
         });
 
+        User user = null;
+        if (getIntent().getExtras() != null) {
+            user = (User) getIntent().getExtras().get("user");
+
+            Log.d("user_home", user.toString());
+        }
+
         // Quản lý phần navigation home, order, account
         navigationView = findViewById(R.id.bottom_nav);
         viewPager = findViewById(R.id.view_pager);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
-        ViewUserAdapter viewUserAdapter = new ViewUserAdapter(fragmentManager, getLifecycle());
+//        ViewUserAdapter viewUserAdapter = new ViewUserAdapter(fragmentManager, getLifecycle());
+        ViewUserAdapter viewUserAdapter = new ViewUserAdapter(fragmentManager, getLifecycle(), user);
+
 
         viewPager.setAdapter(viewUserAdapter);
 
@@ -84,7 +93,6 @@ public class HomeUserActivity extends AppCompatActivity {
         });
         viewPager.setPageTransformer(new DepthPageTransformer());
         // kết thúc quản lí phần navigation home, order, account
-
 
     }
 }

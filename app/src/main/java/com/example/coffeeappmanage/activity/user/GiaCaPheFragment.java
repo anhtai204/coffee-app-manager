@@ -17,6 +17,7 @@ import com.example.coffeeappmanage.activity.RecyclerProduct.RCProductAdapter;
 import com.example.coffeeappmanage.api.ApiService;
 import com.example.coffeeappmanage.model.Product;
 import com.example.coffeeappmanage.model.ResponseProduct;
+import com.example.coffeeappmanage.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +32,7 @@ public class GiaCaPheFragment extends Fragment {
     private RecyclerView recyclerViewCaPhe;
     List<Product> listProducts;
     RCProductAdapter rcProductAdapter;
+    private User user;
 
     public GiaCaPheFragment() {
         // Required empty public constructor
@@ -48,12 +50,21 @@ public class GiaCaPheFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_gia_ca_phe, container, false);
 
+        // Nhận đối tượng User từ Bundle
+        if (getArguments() != null) {
+            user = (User) getArguments().getSerializable("user");
+
+            if (user != null) {
+                Log.d("GiaCaPheFragment", "User: " + user.toString());
+            }
+        }
+
         recyclerViewCaPhe = view.findViewById(R.id.recyclerViewCaPhe);
         recyclerViewCaPhe.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerViewCaPhe.setHasFixedSize(true);
         listProducts = new ArrayList<>();
 
-        rcProductAdapter = new RCProductAdapter(getContext(), listProducts);
+        rcProductAdapter = new RCProductAdapter(getContext(), listProducts, user);
         recyclerViewCaPhe.setAdapter(rcProductAdapter); // Thiết lập adapter ngay lập tức
 
         ApiService.apiService.getCoffeeFilterCost().enqueue(new Callback<ResponseProduct>() {

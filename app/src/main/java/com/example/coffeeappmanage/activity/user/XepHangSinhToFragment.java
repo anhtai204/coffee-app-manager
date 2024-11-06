@@ -15,8 +15,11 @@ import android.widget.Toast;
 import com.example.coffeeappmanage.R;
 import com.example.coffeeappmanage.activity.RecyclerProduct.RCRateProductAdapter;
 import com.example.coffeeappmanage.api.ApiService;
+import com.example.coffeeappmanage.model.Product;
 import com.example.coffeeappmanage.model.RateProduct;
+import com.example.coffeeappmanage.model.ResponseProduct;
 import com.example.coffeeappmanage.model.ResponseRateProduct;
+import com.example.coffeeappmanage.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +32,10 @@ import retrofit2.Response;
 public class XepHangSinhToFragment extends Fragment {
 
     private RecyclerView recyclerViewSinhTo;
-    List<RateProduct> listRateProducts;
+//    List<RateProduct> listRateProducts;
+    List<Product> listRateProducts;
     RCRateProductAdapter rcRateProductAdapter;
+    private User user;
 
 
     public XepHangSinhToFragment() {
@@ -48,20 +53,58 @@ public class XepHangSinhToFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_xep_hang_sinh_to, container, false);
 
+        // Nhận đối tượng User từ Bundle
+        if (getArguments() != null) {
+            user = (User) getArguments().getSerializable("user");
+
+            if (user != null) {
+                Log.d("XepHangSinhToFragment user: ",  user.toString());
+            }
+        }
+
         recyclerViewSinhTo = view.findViewById(R.id.recyclerViewSinhTo);
         recyclerViewSinhTo.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerViewSinhTo.setHasFixedSize(true);
         listRateProducts = new ArrayList<>();
 
-        rcRateProductAdapter = new RCRateProductAdapter(getContext(), listRateProducts);
+        rcRateProductAdapter = new RCRateProductAdapter(getContext(), listRateProducts, user);
         recyclerViewSinhTo.setAdapter(rcRateProductAdapter);
 
-        ApiService.apiService.getSinhToFilterRate().enqueue(new Callback<ResponseRateProduct>() {
+//        ApiService.apiService.getSinhToFilterRate().enqueue(new Callback<ResponseRateProduct>() {
+//            @Override
+//            public void onResponse(Call<ResponseRateProduct> call, Response<ResponseRateProduct> response) {
+//                if (response.isSuccessful() && response.body() != null) {
+//                    ResponseRateProduct responseRateProduct = response.body();
+//                    List<RateProduct> productListCallApi = responseRateProduct.getData();
+//                    int statusCode = responseRateProduct.getStatusCode();
+//                    String message = responseRateProduct.getMessage();
+//
+//                    Log.e("call rate product", productListCallApi.toString());
+//
+//                    listRateProducts.clear(); // Xóa danh sách cũ
+//                    listRateProducts.addAll(productListCallApi); // Thêm dữ liệu mới vào list
+//                    rcRateProductAdapter.notifyDataSetChanged(); // Cập nhật adapter
+//
+//                    Log.e("sinh to rate product", listRateProducts.toString());
+//                }
+//
+//                Log.e("tesst", response.body().getData().toString());
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ResponseRateProduct> call, Throwable throwable) {
+//                Toast.makeText(getContext(), "Call api failed" + throwable.toString(), Toast.LENGTH_SHORT).show();
+//                Log.e("failed", throwable.toString());
+//            }
+//        });
+
+        ApiService.apiService.getSinhToFilterRate().enqueue(new Callback<ResponseProduct>() {
             @Override
-            public void onResponse(Call<ResponseRateProduct> call, Response<ResponseRateProduct> response) {
+            public void onResponse(Call<ResponseProduct> call, Response<ResponseProduct> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    ResponseRateProduct responseRateProduct = response.body();
-                    List<RateProduct> productListCallApi = responseRateProduct.getData();
+                    ResponseProduct responseRateProduct = response.body();
+                    List<Product> productListCallApi = responseRateProduct.getData();
                     int statusCode = responseRateProduct.getStatusCode();
                     String message = responseRateProduct.getMessage();
 
@@ -71,17 +114,13 @@ public class XepHangSinhToFragment extends Fragment {
                     listRateProducts.addAll(productListCallApi); // Thêm dữ liệu mới vào list
                     rcRateProductAdapter.notifyDataSetChanged(); // Cập nhật adapter
 
-                    Log.e("sinh to rate product", listRateProducts.toString());
+                    Log.e("rate product", listRateProducts.toString());
                 }
-
-                Log.e("tesst", response.body().getData().toString());
-
             }
 
             @Override
-            public void onFailure(Call<ResponseRateProduct> call, Throwable throwable) {
-                Toast.makeText(getContext(), "Call api failed" + throwable.toString(), Toast.LENGTH_SHORT).show();
-                Log.e("failed", throwable.toString());
+            public void onFailure(Call<ResponseProduct> call, Throwable throwable) {
+
             }
         });
 
