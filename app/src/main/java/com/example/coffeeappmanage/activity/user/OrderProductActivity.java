@@ -26,8 +26,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.coffeeappmanage.R;
 import com.example.coffeeappmanage.activity.RecyclerProduct.RCToppingAdapter;
 import com.example.coffeeappmanage.api.ApiService;
+import com.example.coffeeappmanage.model.DonHang;
 import com.example.coffeeappmanage.model.Product;
 import com.example.coffeeappmanage.model.ResponseCountRate;
+import com.example.coffeeappmanage.model.ResponseDonHang;
+import com.example.coffeeappmanage.model.ResponseLatestIdDonHang;
 import com.example.coffeeappmanage.model.ResponseTopping;
 import com.example.coffeeappmanage.model.Topping;
 import com.example.coffeeappmanage.model.User;
@@ -48,11 +51,13 @@ public class OrderProductActivity extends AppCompatActivity {
     EditText edtGhiChu;
     int count = 1;
     int giaCuoi;
+    static int latestId;
     String tuyChinhDoUong = "Đá";
     String tuyChinhKichThuoc = "Nhỏ";
     String tuyChinhDuong = "Bình thường";
     RCToppingAdapter rcToppingAdapter;
     List<Topping> selectedToppings;
+    boolean check = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,18 +150,114 @@ public class OrderProductActivity extends AppCompatActivity {
             tvThemGioHang.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(OrderProductActivity.this, "So luong: " + count + ", gia: " + giaCuoi , Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(OrderProductActivity.this, "So luong: " + count + ", gia: " + giaCuoi , Toast.LENGTH_SHORT).show();
 
-//                    selectedToppings = rcToppingAdapter.getSelectedToppings(); // Lấy topping đã chọn
-//                    for (Topping topping : selectedToppings) {
-//                        Log.d("Selected Topping", topping.getTopping_name());
-//                    }
-//
+                    selectedToppings = rcToppingAdapter.getSelectedToppings(); // Lấy topping đã chọn
+
 //                    Log.d("tùy chỉnh đồ uống: ", tuyChinhDoUong);
 //                    Log.d("tùy chỉnh kích thước: ", tuyChinhKichThuoc);
 //                    Log.d("tùy chỉnh đường: ", tuyChinhDuong);
 //                    Log.d("Ghi chú: ", edtGhiChu.getText().toString());
 
+
+                    Log.d("id_user: ", user.getId_user()+"");
+                    Log.d("id_product: ", product.getId_product()+"");
+                    Log.d("status: ", edtGhiChu.getText().toString());
+                    Log.d("giaDonHang: ", giaCuoi+"");
+                    Log.d("soLuong:", count+"");
+
+                    String tuyChinh = tuyChinhDoUong + " - " + tuyChinhKichThuoc + " - " + tuyChinhDuong;
+//                    ApiService.apiService.themVaoGioHang(user.getId_user(), product.getId_product(), count, tuyChinh,
+//                            "dathang", giaCuoi, edtGhiChu.getText().toString()).enqueue(new Callback<Void>() {
+//                        @Override
+//                        public void onResponse(Call<Void> call, Response<Void> response) {
+//                            Toast.makeText(OrderProductActivity.this, "Thêm vào giỏ hàng thành công!", Toast.LENGTH_SHORT).show();
+//                        }
+//
+//                        @Override
+//                        public void onFailure(Call<Void> call, Throwable throwable) {
+//                            Toast.makeText(OrderProductActivity.this, "Thêm vào giỏ hàng thất bại!", Toast.LENGTH_SHORT).show();
+//                            check = false;
+//                        }
+//                    });
+
+//                    ApiService.apiService.getLatestIdDonHang().enqueue(new Callback<ResponseLatestIdDonHang>() {
+//                        @Override
+//                        public void onResponse(Call<ResponseLatestIdDonHang> call, Response<ResponseLatestIdDonHang> response) {
+//                            if (response.isSuccessful() && response.body() != null) {
+//                                ResponseLatestIdDonHang data = response.body();
+//                                latestId = data.getData();  // Đảm bảo rằng 'getData()' trả về giá trị đúng
+//
+//                                latestId = latestId + 1;
+//                                Log.d("latestId", "Received latestId: " + latestId);
+//
+//                                if(selectedToppings.size()!=0){
+//                                    for(Topping topping : selectedToppings){
+//                                        int toppingId = topping.getId_topping();
+//                                        ApiService.apiService.insertProductTopping(latestId, toppingId).enqueue(new Callback<Void>() {
+//                                            @Override
+//                                            public void onResponse(Call<Void> call, Response<Void> response) {
+//                                                Toast.makeText(OrderProductActivity.this, "inserted product topping successfuled!", Toast.LENGTH_SHORT).show();
+//                                            }
+//
+//                                            @Override
+//                                            public void onFailure(Call<Void> call, Throwable throwable) {
+//                                                check = false;
+//                                            }
+//                                        });
+//                                    }
+//                                }
+//                            } else {
+////                                Log.e("API Error", "Response was unsuccessful or body is null");
+//                                check = false;
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onFailure(Call<ResponseLatestIdDonHang> call, Throwable throwable) {
+//
+//                        }
+//                    });
+
+                    ApiService.apiService.themVaoGioHang(user.getId_user(), product.getId_product(), count, tuyChinh,
+                            "dathang", giaCuoi, edtGhiChu.getText().toString()).enqueue(new Callback<ResponseDonHang>() {
+                        @Override
+                        public void onResponse(Call<ResponseDonHang> call, Response<ResponseDonHang> response) {
+                            ResponseDonHang responseDonHang = response.body();
+                            DonHang donHang = responseDonHang.getData();
+                            Log.d("don hang: ", donHang.toString());
+
+                            if (selectedToppings.size() != 0){
+                                for (Topping topping : selectedToppings){
+                                    int toppingId = topping.getId_topping();
+                                    ApiService.apiService.insertProductTopping(donHang.getId_donHang(), toppingId).enqueue(new Callback<Void>() {
+                                        @Override
+                                        public void onResponse(Call<Void> call, Response<Void> response) {
+                                            Toast.makeText(OrderProductActivity.this, "inserted product topping successfuled!", Toast.LENGTH_SHORT).show();
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call<Void> call, Throwable throwable) {
+                                            check = false;
+                                        }
+                                    });
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponseDonHang> call, Throwable throwable) {
+                            check = false;
+                        }
+                    });
+
+
+
+                    if(check == true){
+//                        finish();
+                        Intent intentThemGioHang = new Intent(OrderProductActivity.this, GioHangActivity.class);
+                        startActivity(intentThemGioHang);
+                    }
 
                 }
             });

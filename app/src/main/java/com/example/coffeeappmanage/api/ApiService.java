@@ -7,6 +7,8 @@ import retrofit2.Call;
 import retrofit2.Retrofit;
 
 import com.example.coffeeappmanage.model.ResponseCountRate;
+import com.example.coffeeappmanage.model.ResponseDonHang;
+import com.example.coffeeappmanage.model.ResponseLatestIdDonHang;
 import com.example.coffeeappmanage.model.ResponseProduct;
 import com.example.coffeeappmanage.model.ResponseRateProduct;
 import com.example.coffeeappmanage.model.ResponseTopping;
@@ -36,8 +38,8 @@ public interface ApiService {
 //            .baseUrl("http://10.0.2.2:3000/")
 //            .baseUrl("http://192.168.137.1:3000/")
 //            .baseUrl("http://192.168.86.1:3000/")
-            .baseUrl("http://10.12.2.66:3000/")
-//            .baseUrl("http://192.168.1.67:3000/")
+//            .baseUrl("http://10.12.2.66:3000/")
+            .baseUrl("http://192.168.1.67:3000/")
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
             .create(ApiService.class);
@@ -129,14 +131,41 @@ public interface ApiService {
 
     @FormUrlEncoded
     @POST("donhang")
-    Call<Void> themVaoGioHang(@Field("id_user") int id_user,
-                              @Field("id_product") int id_product,
-                              @Field("status") String status,
-                              @Field("giaDonHang") float giaDonHang);
+//    Call<Void> themVaoGioHang(@Field("id_user") int id_user,
+//                              @Field("id_product") int id_product,
+//                              @Field("soLuong") int soLuong,
+//                              @Field("tuyChinh") String tuyChinh,
+//                              @Field("status") String status,
+//                              @Field("giaDonHang") float giaDonHang,
+//                              @Field("ghiChu") String ghiChu);
+    Call<ResponseDonHang> themVaoGioHang(@Field("id_user") int id_user,
+                                         @Field("id_product") int id_product,
+                                         @Field("soLuong") int soLuong,
+                                         @Field("tuyChinh") String tuyChinh,
+                                         @Field("status") String status,
+                                         @Field("giaDonHang") float giaDonHang,
+                                         @Field("ghiChu") String ghiChu);
 
 
     @FormUrlEncoded
     @POST("product-topping")
-    Call<Void> insertProductTopping(@Field("productId") int productId,
-                                    @Field("toppingId") int toppingId);
+    Call<Void> insertProductTopping(@Field("id_don_hang") int id_don_hang,
+                                    @Field("topping_id") int topping_id);
+
+
+    @GET("donhang/latest-id")
+    Call<ResponseLatestIdDonHang> getLatestIdDonHang();
+
+
+//    @FormUrlEncoded
+//    @POST("product-topping")
+//    Call<Void> insertProductTopping(@Field("productId") int productId,
+//                                    @Field("toppingId") int toppingId,
+//                                    @Field("userId") int userId);
+
+
+//    @FormUrlEncoded
+//    @POST("tuy-chinh")
+//    Call<Void> insertTuyChinh(@Field("yeuCauTuyChinh") String yeuCauTuyChinh,
+//                              @Field("id_don_hang") int id_don_hang);
 }
