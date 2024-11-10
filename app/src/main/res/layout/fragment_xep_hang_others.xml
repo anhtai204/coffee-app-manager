@@ -3,13 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    tools:context=".activity.admin.DonHangAdminFragment">
+    tools:context=".activity.user.XepHangOthersFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Fragment đơn hàng" />
+        android:id="@+id/recyclerViewOthers"
+        android:foregroundGravity="center_horizontal"/>
 
 </FrameLayout>

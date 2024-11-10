@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/white"
     tools:context=".activity.admin.CaiDatAdminFragment">
 
     <androidx.appcompat.widget.Toolbar
@@ -59,7 +60,7 @@
                 android:id="@+id/imgDiKemDoUong"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/baseline_logout_24"/>
+                android:src="@drawable/baseline_bookmark_add_24"/>
 
             <TextView
                 android:id="@+id/tvDiKemDoUong"
@@ -82,7 +83,7 @@
                 android:id="@+id/imgChuongTrinhKhuyenMai"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/baseline_logout_24"/>
+                android:src="@drawable/baseline_discount_brown_24"/>
 
             <TextView
                 android:id="@+id/tvChuongTrinhKhuyenMai"
@@ -105,7 +106,7 @@
                 android:id="@+id/imgDoiMatKhau"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/baseline_logout_24"/>
+                android:src="@drawable/baseline_manage_accounts_24"/>
 
             <TextView
                 android:id="@+id/tvDoiMatKhau"

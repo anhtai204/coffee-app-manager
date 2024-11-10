@@ -4,45 +4,51 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".activity.user.SinhToFragment"
-    android:orientation="vertical">
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context=".activity.user.OthersFragment">
 
     <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tab_layout_sinh_to"
+        android:id="@+id/tab_layout_others"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:tabSelectedTextColor="#836b68"
         android:background="@color/white"
-        app:tabIndicatorHeight="5dp"
+        app:tabIndicatorHeight="2dp"
         app:tabIndicatorFullWidth="true"
         app:tabIndicatorColor="#836b68"
+        app:tabIndicatorAnimationMode="fade"
         android:paddingBottom="2dp"
+        android:paddingTop="10dp"
         app:tabMode="fixed">
 
         <com.google.android.material.tabs.TabItem
-            android:id="@+id/tabTatCa_sinhto"
+            android:id="@+id/tabTatCa_others"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Tất cả" />
+            android:text="Tất cả"/>
         <com.google.android.material.tabs.TabItem
-            android:id="@+id/tabXepHang_sinhto"
+            android:id="@+id/tabXepHang_others"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Xếp hạng"/>
         <com.google.android.material.tabs.TabItem
-            android:id="@+id/tabGia_sinhto"
+            android:id="@+id/tabGia_others"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Giá"/>
         <com.google.android.material.tabs.TabItem
-            android:id="@+id/tabKhuyenMai_sinhto"
+            android:id="@+id/tabKhuyenMai_others"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Khuyến mại"/>
+
     </com.google.android.material.tabs.TabLayout>
 
+
+
     <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/viewPager_sanPham_loc_sinhto"
+        android:id="@+id/viewPager_sanPham_loc_others"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"

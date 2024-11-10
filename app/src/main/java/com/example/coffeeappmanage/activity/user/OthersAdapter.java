@@ -10,54 +10,41 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.example.coffeeappmanage.model.User;
 
-
-public class HomeUserAdapter extends FragmentStateAdapter {
+public class OthersAdapter extends FragmentStateAdapter {
     private User user;
 
-    public HomeUserAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle, User user) {
+    public OthersAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle, User user) {
         super(fragmentManager, lifecycle);
         this.user = user;
     }
-
 
     @NonNull
     @Override
     public Fragment createFragment(int position) {
         Fragment fragment = null;
-        Bundle bundle = new Bundle();
-
-//        switch (position) {
-//            case 0:
-//                return new CaPheFragment();
-//            case 1:
-//                return new TraSuaFragment();
-//            case 2:
-//                return new SinhToFragment();
-//            default:
-//                return new CaPheFragment();
-//        }
 
         switch (position) {
             case 0:
-                fragment = new CaPheFragment();
+                fragment = new TatCaOthersFragment();
                 break;
             case 1:
-                fragment = new TraSuaFragment();
+                fragment = new XepHangOthersFragment();
                 break;
             case 2:
-                fragment = new SinhToFragment();
+                fragment = new GiaOthersFragment();
                 break;
             case 3:
-                fragment = new OthersFragment();
+                fragment = new KhuyenMaiOthersFragment();
                 break;
             default:
-                fragment = new CaPheFragment();
+                return new TatCaOthersFragment();
         }
 
-        // Truyền đối tượng User vào Fragment qua Bundle
+        // Truyền đối tượng User vào mỗi Fragment qua Bundle
         if (fragment != null) {
-            bundle.putSerializable("user", user);
-            fragment.setArguments(bundle);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("user", user);  // Truyền đối tượng User vào Bundle
+            fragment.setArguments(bundle);  // Đặt Bundle vào Fragment
         }
 
         return fragment;

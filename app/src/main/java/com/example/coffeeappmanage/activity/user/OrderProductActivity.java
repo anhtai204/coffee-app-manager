@@ -62,6 +62,7 @@ public class OrderProductActivity extends AppCompatActivity {
     boolean check = true;
     User user;
     DonHang donHang;
+    Product product;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,10 +93,11 @@ public class OrderProductActivity extends AppCompatActivity {
 
 
         if(getIntent().getExtras() != null){
-            Product product = (Product) getIntent().getExtras().get("product");
+            product = (Product) getIntent().getExtras().get("product");
             user = (User) getIntent().getExtras().get("user");
 
             Log.d("user_order", user.toString());
+            Log.d("OrderProductActivity product: ", product.toString());
 
             float gia_sp = product.getGiaSanPham() - product.getKhuyenmai_gia();
             DecimalFormat decimalFormat = new DecimalFormat("#,###");

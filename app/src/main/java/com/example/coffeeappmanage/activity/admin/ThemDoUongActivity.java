@@ -105,18 +105,19 @@ public class ThemDoUongActivity extends AppCompatActivity {
                     edtMoTaDoUong.getText().toString().trim().equals("")){
                     Toast.makeText(ThemDoUongActivity.this, "Nhập đầy đủ thông tin!", Toast.LENGTH_SHORT).show();
                 } else {
-                    if(!edtKhuyenMaiDoUong.getText().toString().equals("")){
-                        khuyenmai = Float.parseFloat(edtKhuyenMaiDoUong.getText().toString().trim());
-                        if(khuyenmai >= 100){
-                            Toast.makeText(ThemDoUongActivity.this, "Khuyến mại không hợp lệ!", Toast.LENGTH_SHORT).show();
-                        }
-                    }
+
                     if(!edtHinhAnhDoUong.getText().toString().trim().equals("")){
                         path_logo = edtHinhAnhDoUong.getText().toString().trim();
                     }
                     String moTaDoUong = edtMoTaDoUong.getText().toString().trim();
                     String tenDoUong = edtTenDoUong.getText().toString().trim();
                     float giaDoUong = Float.parseFloat(edtGiaDoUong.getText().toString().trim());
+                    if(!edtKhuyenMaiDoUong.getText().toString().equals("")){
+                        khuyenmai = Float.parseFloat(edtKhuyenMaiDoUong.getText().toString().trim());
+                        if(khuyenmai >= giaDoUong){
+                            Toast.makeText(ThemDoUongActivity.this, "Khuyến mại không hợp lệ!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
 
                     Log.d("ten san pham: ", tenDoUong);
                     Log.d("gia san pham: ", giaDoUong+"");

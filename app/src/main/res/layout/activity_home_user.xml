@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/white"
     tools:context=".activity.admin.HomeAdminActivity">
 
 
@@ -22,6 +23,7 @@
         android:layout_height="wrap_content"
         app:tabIndicatorHeight="5dp"
         android:paddingBottom="2dp"
+        android:background="@color/white"
         app:tabMode="fixed"
         app:menu="@menu/menu_bottom_nav"
         app:itemTextColor="@color/custom_color_navigation"

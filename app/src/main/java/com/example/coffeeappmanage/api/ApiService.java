@@ -133,6 +133,20 @@ public interface ApiService {
     Call<ResponseProduct> getSinhToFilterRate();
 
 
+    // others product
+    @GET("product/others")
+    Call<ResponseProduct> getAllOthers();
+
+    @GET("product/others/sortCost")
+    Call<ResponseProduct> getOthersFilterCost();
+
+    @GET("product/others/sortSale")
+    Call<ResponseProduct> getOthersFilterSale();
+
+    @GET("product/others/sortRate")
+    Call<ResponseProduct> getOthersFilterRate();
+
+
 
     // topping
     @GET("topping")
