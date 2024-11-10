@@ -10,39 +10,23 @@
 
 
     <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/view_pager"
+        android:id="@+id/view_pager_admin"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:orientation="horizontal" />
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tab_layout"
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_nav_admin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:tabSelectedTextColor="@android:color/holo_green_dark"
         app:tabIndicatorHeight="5dp"
         android:paddingBottom="2dp"
-        app:tabMode="fixed">
+        app:tabMode="fixed"
+        app:menu="@menu/menu_bottom_nav_admin"
+        app:itemTextColor="@color/custom_color_navigation"
+        app:itemIconTint="@color/custom_color_navigation">
 
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/tab1"
-            android:icon="@drawable/baseline_home_24"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Trang chủ" />
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/tab2"
-            android:icon="@drawable/baseline_shopping_cart_24"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Lịch sử"/>
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/tab3"
-            android:icon="@drawable/baseline_person_24"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Tài khoản"/>
-    </com.google.android.material.tabs.TabLayout>
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
 
 </LinearLayout>

@@ -38,6 +38,7 @@
                     android:layout_height="match_parent">
 
                     <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rcGioHang"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
 
@@ -53,11 +54,13 @@
                 android:orientation="horizontal">
 
                 <ImageView
+                    android:id="@+id/imgThemVaoGioHang"
                     android:layout_width="12dp"
                     android:layout_height="wrap_content"
                     android:src="@drawable/baseline_arrow_back_ios_24" />
 
                 <TextView
+                    android:id="@+id/tvThemVaoGioHang"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Thêm vào giỏ hàng" />
@@ -86,6 +89,7 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/tvPhuongThucThanhToan"
                             android:textStyle="bold"
                             android:textSize="18dp"
                             android:layout_width="match_parent"
@@ -93,6 +97,7 @@
                             android:text="Phương thức thành toán"/>
 
                         <TextView
+                            android:id="@+id/tvPhuongThucThanhToanStatus"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Chọn phương thức thanh toán"/>
@@ -100,6 +105,7 @@
                     </LinearLayout>
 
                     <ImageView
+                        android:id="@+id/imgPhuongThucThanhToan"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -124,6 +130,7 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/tvDiaChiGiaoHang"
                             android:textStyle="bold"
                             android:textSize="18dp"
                             android:layout_width="match_parent"
@@ -131,6 +138,7 @@
                             android:text="Địa chỉ giao hàng"/>
 
                         <TextView
+                            android:id="@+id/tvDiaChiGiaoHangStatus"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Chọn địa chỉ giao hàng"/>
@@ -138,6 +146,7 @@
                     </LinearLayout>
 
                     <ImageView
+                        android:id="@+id/imgDiaChiGiaoHang"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -162,6 +171,7 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/tvKhuyenMai"
                             android:textStyle="bold"
                             android:textSize="18dp"
                             android:layout_width="match_parent"
@@ -169,6 +179,7 @@
                             android:text="Khuyến mại"/>
 
                         <TextView
+                            android:id="@+id/tvKhuyenMaiStatus"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Áp dụng khuyến mại"/>
@@ -176,6 +187,7 @@
                     </LinearLayout>
 
                     <ImageView
+                        android:id="@+id/imgKhuyenMai"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -224,6 +236,7 @@
                                 android:text="Giá"/>
                             
                             <TextView
+                                android:id="@+id/tvGiaGoc"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:gravity="end"
@@ -232,6 +245,7 @@
                         </LinearLayout>
 
                         <TextView
+                            android:id="@+id/tvSoLuongDoUong"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="(2 đồ uống)"/>
@@ -273,6 +287,7 @@
                                 android:text="Áp dụng mã khuyến mại"/>
 
                             <TextView
+                                android:id="@+id/tvGiaGiam"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:gravity="end"
@@ -341,6 +356,7 @@
                     android:layout_gravity="center">
 
                     <TextView
+                        android:id="@+id/tvDatDonHang"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="Đặt đơn hàng"

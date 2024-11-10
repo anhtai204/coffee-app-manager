@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.coffeeappmanage.R;
@@ -95,27 +96,49 @@ public class RCProductAdapter extends RecyclerView.Adapter<RCProductAdapter.Prod
             rc_khuyen_mai = itemView.findViewById(R.id.rc_khuyen_mai);
             rc_star = itemView.findViewById(R.id.rc_star);
 
+//            itemView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    // Xử lý sự kiện khi người dùng nhấn vào sản phẩm
+//                    int position = getAdapterPosition();
+//                    if (position != RecyclerView.NO_POSITION) {
+//                        Product clickedProduct = modelArrayList.get(position);
+//                        Log.e("product clicked", clickedProduct.toString());
+//                        Toast.makeText(itemView.getContext(), "Product: " + clickedProduct.getTenSanPham().toString(), Toast.LENGTH_SHORT).show();
+//                        // Thực hiện hành động mong muốn (ví dụ: mở chi tiết sản phẩm)
+//
+//                        Intent intent = new Intent(context, OrderProductActivity.class);
+//                        Bundle bundle = new Bundle();
+//                        bundle.putSerializable("product", clickedProduct);
+//                        bundle.putSerializable("user", user);
+//
+//                        intent.putExtras(bundle);
+//                        context.startActivity(intent);
+//                    }
+//                }
+//            });
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // Xử lý sự kiện khi người dùng nhấn vào sản phẩm
                     int position = getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION) {
                         Product clickedProduct = modelArrayList.get(position);
-                        Log.e("product clicked", clickedProduct.toString());
-                        Toast.makeText(itemView.getContext(), "Product: " + clickedProduct.getTenSanPham().toString(), Toast.LENGTH_SHORT).show();
-                        // Thực hiện hành động mong muốn (ví dụ: mở chi tiết sản phẩm)
-
                         Intent intent = new Intent(context, OrderProductActivity.class);
                         Bundle bundle = new Bundle();
                         bundle.putSerializable("product", clickedProduct);
                         bundle.putSerializable("user", user);
 
-                        intent.putExtras(bundle);
-                        context.startActivity(intent);
+                        if (!((AppCompatActivity) context).getSupportFragmentManager().isStateSaved()) {
+                            intent.putExtras(bundle);
+                            context.startActivity(intent);
+                        } else {
+                            Log.e("RCProductAdapter", "FragmentManager is already executing transactions.");
+                        }
                     }
                 }
             });
+
         }
     }
 }

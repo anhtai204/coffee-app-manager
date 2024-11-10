@@ -1,8 +1,6 @@
 package com.example.coffeeappmanage.api;
 
 
-import androidx.annotation.AnyRes;
-
 import retrofit2.Call;
 import retrofit2.Retrofit;
 
@@ -10,16 +8,18 @@ import com.example.coffeeappmanage.model.ResponseCountRate;
 import com.example.coffeeappmanage.model.ResponseDonHang;
 import com.example.coffeeappmanage.model.ResponseLatestIdDonHang;
 import com.example.coffeeappmanage.model.ResponseProduct;
-import com.example.coffeeappmanage.model.ResponseRateProduct;
+import com.example.coffeeappmanage.model.ResponseSingleTheLoai;
+import com.example.coffeeappmanage.model.ResponseTheLoai;
 import com.example.coffeeappmanage.model.ResponseTopping;
 import com.example.coffeeappmanage.model.ResponseUser;
-import com.example.coffeeappmanage.model.Topping;
+import com.example.coffeeappmanage.model.TheLoai;
 import com.example.coffeeappmanage.model.User;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -39,7 +39,8 @@ public interface ApiService {
 //            .baseUrl("http://192.168.137.1:3000/")
 //            .baseUrl("http://192.168.86.1:3000/")
 //            .baseUrl("http://10.12.2.66:3000/")
-            .baseUrl("http://192.168.1.67:3000/")
+            .baseUrl("http://192.168.1.60:3000/")
+//            .baseUrl("http://10.15.173.130:3000/")
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
             .create(ApiService.class);
@@ -62,6 +63,12 @@ public interface ApiService {
     @PUT("users/change-password/{id_user}")
     Call<Void> changePassword(@Path("id_user") int id_user,
                               @Field("new_password") String new_password);
+
+    @GET("product")
+    Call<ResponseProduct> getAllProduct();
+
+    @DELETE("product/delete-product/{id_product}")
+    Call<Void> deleteProduct(@Path("id_product") int id_product);
 
 
 
@@ -168,4 +175,27 @@ public interface ApiService {
 //    @POST("tuy-chinh")
 //    Call<Void> insertTuyChinh(@Field("yeuCauTuyChinh") String yeuCauTuyChinh,
 //                              @Field("id_don_hang") int id_don_hang);
+
+
+
+    @GET("theloai")
+    Call<ResponseTheLoai> getAllTheLoai();
+
+    @DELETE("theloai/xoa-the-loai/{id_theLoai}")
+    Call<Void> xoaTheLoai(@Path("id_theLoai") int id_theLoai);
+
+    @FormUrlEncoded
+    @PUT("theloai/sua-the-loai/{id_theLoai}")
+    Call<Void> updateTheLoai(@Path("id_theLoai") int id_theLoai,
+                              @Field("new_tenTheLoai") String new_tenTheLoai);
+
+
+    @POST("theloai")
+    Call<ResponseSingleTheLoai> createTheLoai(@Body TheLoai theLoai);
+
+//    @POST("theloai")
+//    Call<Void> createTheLoai(@Body TheLoai theLoai);
+
+
+
 }

@@ -4,14 +4,14 @@ import java.io.Serializable;
 
 public class TheLoai implements Serializable {
     private int id_theLoai;
-    private String tenTheLoai;
+    private String ten_the_loai;
 
     public TheLoai() {
     }
 
-    public TheLoai(int id_theLoai, String tenTheLoai) {
+    public TheLoai(int id_theLoai, String ten_the_loai) {
         this.id_theLoai = id_theLoai;
-        this.tenTheLoai = tenTheLoai;
+        this.ten_the_loai = ten_the_loai;
     }
 
     public int getId_theLoai() {
@@ -22,19 +22,19 @@ public class TheLoai implements Serializable {
         this.id_theLoai = id_theLoai;
     }
 
-    public String getTenTheLoai() {
-        return tenTheLoai;
+    public String getTen_the_loai() {
+        return ten_the_loai;
     }
 
-    public void setTenTheLoai(String tenTheLoai) {
-        this.tenTheLoai = tenTheLoai;
+    public void setTen_the_loai(String ten_the_loai) {
+        this.ten_the_loai = ten_the_loai;
     }
 
     @Override
     public String toString() {
         return "TheLoai{" +
                 "id_theLoai=" + id_theLoai +
-                ", tenTheLoai='" + tenTheLoai + '\'' +
+                ", ten_the_loai='" + ten_the_loai + '\'' +
                 '}';
     }
 }

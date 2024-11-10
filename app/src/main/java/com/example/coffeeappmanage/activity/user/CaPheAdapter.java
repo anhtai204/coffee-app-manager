@@ -22,22 +22,6 @@ public class CaPheAdapter extends FragmentStateAdapter {
     }
 
 
-//    @NonNull
-//    @Override
-//    public Fragment createFragment(int position) {
-//        switch (position) {
-//            case 0:
-//                return new TatCaCaPheFragment();
-//            case 1:
-//                return new XepHangCaPheFragment();
-//            case 2:
-//                return new GiaCaPheFragment();
-//            case 3:
-//                return new KhuyenMaiCaPheFragment();
-//            default:
-//                return new TatCaCaPheFragment();
-//        }
-//    }
 
     @NonNull
     @Override

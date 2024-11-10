@@ -1,0 +1,17 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Layer 1: Background of FAB -->
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="#006961"/> <!-- Màu nền cho nút -->
+        </shape>
+    </item>
+
+    <!-- Layer 2: Border of FAB -->
+    <item android:left="2dp" android:right="2dp" android:top="2dp" android:bottom="2dp">
+        <shape android:shape="oval">
+            <stroke
+                android:width="2dp"
+                android:color="#FFFFFF"/> <!-- Màu của border -->
+        </shape>
+    </item>
+</layer-list>

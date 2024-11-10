@@ -11,6 +11,7 @@ public class Product implements Serializable {
     private KhuyenMai khuyenMai;
     private Topping topping;
     private float average_star;
+    private String logo_product;
 
     public Product(int id_product, String tenSanPham, float giaSanPham, float khuyenmai_gia, TheLoai theLoai, KhuyenMai khuyenMai, Topping topping, float average_star) {
         this.id_product = id_product;
@@ -33,15 +34,6 @@ public class Product implements Serializable {
     public void setAverage_star(float average_star) {
         this.average_star = average_star;
     }
-//    public Product(int id_product, String tenSanPham, float giaSanPham, float khuyenmai_gia, TheLoai theLoai, KhuyenMai khuyenMai, Topping topping) {
-//        this.id_product = id_product;
-//        this.tenSanPham = tenSanPham;
-//        this.giaSanPham = giaSanPham;
-//        this.khuyenmai_gia = khuyenmai_gia;
-//        this.theLoai = theLoai;
-//        this.khuyenMai = khuyenMai;
-//        this.topping = topping;
-//    }
 
     public int getId_product() {
         return id_product;
