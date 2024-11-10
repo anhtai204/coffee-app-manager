@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
@@ -22,26 +23,29 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.coffeeappmanage.R;
 import com.example.coffeeappmanage.api.ApiService;
 import com.example.coffeeappmanage.model.Product;
+import com.example.coffeeappmanage.model.ResponseProduct_1;
+import com.example.coffeeappmanage.model.ResponseSingleTopping;
 import com.example.coffeeappmanage.model.TheLoai;
+import com.example.coffeeappmanage.model.Topping;
 import com.example.coffeeappmanage.model.User;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ChinhSuaTheLoaiActivity extends AppCompatActivity {
+public class ChinhSuaToppingActivity extends AppCompatActivity {
 
-    User user;
-    TheLoai theLoai;
     Toolbar toolbar;
-    EditText edtTenTheLoai;
-    TextView btnCapNhatTheLoai;
+    private User user;
+    Topping topping;
+    EditText edtTenToppingSua, edtGiaToppingSua;
+    TextView btnCapNhatTopping;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_chinh_sua_the_loai);
+        setContentView(R.layout.activity_chinh_sua_topping);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -50,29 +54,33 @@ public class ChinhSuaTheLoaiActivity extends AppCompatActivity {
 
         if(getIntent().getExtras() != null) {
             user = (User) getIntent().getExtras().get("user");
-            theLoai = (TheLoai) getIntent().getExtras().get("theloai");
+            topping = (Topping) getIntent().getExtras().get("topping");
         }
 
-        Log.d("thể loại: ", theLoai.toString());
+        Log.d("topping: ", topping.toString());
         Log.d("user: ", user.toString());
 
-        toolbar = findViewById(R.id.toolbarTheLoai);
+        toolbar = findViewById(R.id.toolbarSuaTopping);
         setSupportActionBar(toolbar);
 
-        edtTenTheLoai = findViewById(R.id.edtTenTheLoai);
-        btnCapNhatTheLoai = findViewById(R.id.btnCapNhatTheLoai);
+        edtTenToppingSua = findViewById(R.id.edtTenToppingSua);
+        edtTenToppingSua.setText(topping.getTopping_name());
+        edtGiaToppingSua = findViewById(R.id.edtGiaToppingSua);
+        edtGiaToppingSua.setText(topping.getGiaTopping()+"");
+        btnCapNhatTopping = findViewById(R.id.btnCapNhatTopping);
 
-        edtTenTheLoai.setText(theLoai.getTen_the_loai());
-
-        btnCapNhatTheLoai.setOnClickListener(new View.OnClickListener() {
+        btnCapNhatTopping.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int id_theLoai = theLoai.getId_theLoai();
-                String new_tenTheLoai = edtTenTheLoai.getText().toString();
+                int id_topping = topping.getId_topping();
+                String new_tenTopping = edtTenToppingSua.getText().toString();
+                float new_giaTopping = Float.parseFloat(edtGiaToppingSua.getText().toString());
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(ChinhSuaTheLoaiActivity.this);
+                Topping updatedTopping = new Topping(0, new_tenTopping, new_giaTopping);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(ChinhSuaToppingActivity.this);
                 builder.setTitle("Update");
-                builder.setMessage("Bạn có chắc muốn thay đổi tên thể loại!");
+                builder.setMessage("Bạn có chắc muốn thay đổi topping!");
                 builder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -82,23 +90,22 @@ public class ChinhSuaTheLoaiActivity extends AppCompatActivity {
                 builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        ApiService.apiService.updateTheLoai(id_theLoai, new_tenTheLoai).enqueue(new Callback<Void>() {
+                        ApiService.apiService.updateTopping(id_topping, updatedTopping).enqueue(new Callback<ResponseSingleTopping>() {
                             @Override
-                            public void onResponse(Call<Void> call, Response<Void> response) {
+                            public void onResponse(Call<ResponseSingleTopping> call, Response<ResponseSingleTopping> response) {
                                 if (response.isSuccessful()) {
-
-                                    TheLoai updatedTheLoai = new TheLoai(id_theLoai, new_tenTheLoai);
-                                    // Sau khi người dùng chỉnh sửa thể loại thành công
                                     Intent resultIntent = new Intent();
-                                    resultIntent.putExtra("updatedTheLoai", updatedTheLoai); // updatedTheLoai là đối tượng TheLoai đã chỉnh sửa
+                                    resultIntent.putExtra("updatedTopping", updatedTopping);
                                     setResult(Activity.RESULT_OK, resultIntent);
                                     finish(); // Đóng activity và quay lại fragment
+                                    Toast.makeText(ChinhSuaToppingActivity.this, "Update topping successed!", Toast.LENGTH_SHORT).show();
                                 }
                             }
 
                             @Override
-                            public void onFailure(Call<Void> call, Throwable throwable) {
-
+                            public void onFailure(Call<ResponseSingleTopping> call, Throwable throwable) {
+                                Toast.makeText(ChinhSuaToppingActivity.this, "update topping failed", Toast.LENGTH_SHORT).show();
+                                Log.d("error update: ", throwable.toString());
                             }
                         });
                     }

@@ -1,9 +1,13 @@
 package com.example.coffeeappmanage.activity.admin;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -26,6 +30,7 @@ import com.example.coffeeappmanage.activity.RecyclerProduct.RCDoUongAdapter;
 import com.example.coffeeappmanage.activity.RecyclerProduct.RCTheLoaiAdapter;
 import com.example.coffeeappmanage.api.ApiService;
 import com.example.coffeeappmanage.model.Product;
+import com.example.coffeeappmanage.model.Product_1;
 import com.example.coffeeappmanage.model.ResponseProduct;
 import com.example.coffeeappmanage.model.ResponseTheLoai;
 import com.example.coffeeappmanage.model.TheLoai;
@@ -48,8 +53,7 @@ public class DoUongAdminFragment extends Fragment {
     RCDoUongAdapter rcDoUongAdapter;
     private User user;
     FloatingActionButton fabThemDoUong;
-
-    private ActivityResultLauncher<Intent> suaTheLoaiLauncher;
+    private ActivityResultLauncher<Intent> suaDoUongLauncher;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -80,45 +84,48 @@ public class DoUongAdminFragment extends Fragment {
         rcDoUongAdmin.setHasFixedSize(true);
         listProduct = new ArrayList<>();
 
-        rcDoUongAdapter = new RCDoUongAdapter(getContext(), listProduct, user);
+        suaDoUongLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        Intent data = result.getData();
+                        if (data != null) {
+                            Product updatedDoUong = (Product) data.getSerializableExtra("updatedProduct");
+                            Log.d("updated do uong: ", updatedDoUong.toString());
+                            if (updatedDoUong != null) {
+                                loadData();
+                                Toast.makeText(getContext(), "Cập nhật đồ uống thành công", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+                }
+        );
+
+        rcDoUongAdapter = new RCDoUongAdapter(getContext(), listProduct, user, suaDoUongLauncher);
         rcDoUongAdmin.setAdapter(rcDoUongAdapter); // Thiết lập adapter ngay lập tức
 
-//        fabThemDoUong = view.findViewById(R.id.fabThemDoUong);
-//        fabThemDoUong.setOnTouchListener(new View.OnTouchListener(){
-//            float xDelta, yDelta;
-//            boolean isDragging = false; // Biến trạng thái để theo dõi việc kéo
-//
-//            @Override
-//            public boolean onTouch(View view, MotionEvent motionEvent) {
-//                int action = motionEvent.getAction();
-//                switch (action){
-//                    case MotionEvent.ACTION_DOWN:
-//                        xDelta = view.getX() - motionEvent.getRawX();
-//                        yDelta = view.getY() - motionEvent.getRawY();
-//                        isDragging = false; // Mặc định không phải là kéo
-//                        break;
-//                    case MotionEvent.ACTION_MOVE:
-//                        isDragging = true; // Mặc định không phải là kéo
-//                        view.animate()
-//                                .x(motionEvent.getRawX() + xDelta)
-//                                .y(motionEvent.getRawY() + yDelta)
-//                                .setDuration(0)
-//                                .start();
-//                        break;
-//                    case MotionEvent.ACTION_UP:
-//                        // Khi thả tay, kiểm tra xem có kéo hay không
-//                        if (!isDragging) {
-//                            // Nếu không phải là kéo, thực hiện hành động click
-//                            view.performClick(); // Gọi performClick để kích hoạt onClick
-//                        }
-//                        break;
-//                }
-//                // return false đảm bảo sự kiện onClick không bị "ăn"
-//                return false;
-//            }
-//        });
-
         loadData();
+
+        ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
+                            Intent intent = result.getData();
+                            Product_1 newProduct = (Product_1) intent.getSerializableExtra("newProduct");
+
+                            Product new_product = new Product(newProduct.getId_product(), newProduct.getTenSanPham(), newProduct.getGiaSanPham(),
+                                    newProduct.getKhuyenmai_gia(), newProduct.getTheLoai(), newProduct.getKhuyenMai(), null, 0, newProduct.getMo_ta(), newProduct.getLogo_product());
+
+                            if (newProduct != null) {
+                                listProduct.add(new_product);
+                                loadData();
+                            }
+                        }
+                    }
+                }
+        );
 
         fabThemDoUong = view.findViewById(R.id.fabThemDoUong);
 
@@ -129,8 +136,7 @@ public class DoUongAdminFragment extends Fragment {
                 Bundle data = new Bundle();
                 data.putSerializable("user", user);
                 intentThemTheLoai.putExtras(data);
-                startActivity(intentThemTheLoai);
-//                activityResultLauncher.launch(intentThemTheLoai);
+                activityResultLauncher.launch(intentThemTheLoai);
             }
         });
 

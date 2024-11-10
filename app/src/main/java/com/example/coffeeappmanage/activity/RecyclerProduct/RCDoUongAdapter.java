@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Paint;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.coffeeappmanage.R;
+import com.example.coffeeappmanage.activity.admin.ChinhSuaDoUongActivity;
+import com.example.coffeeappmanage.activity.admin.ChinhSuaTheLoaiActivity;
 import com.example.coffeeappmanage.api.ApiService;
 import com.example.coffeeappmanage.model.Product;
 import com.example.coffeeappmanage.model.TheLoai;
@@ -37,18 +40,18 @@ public class RCDoUongAdapter extends RecyclerView.Adapter<RCDoUongAdapter.DoUong
 
     private ActivityResultLauncher<Intent> activityResultLauncher;
 
-//    public RCDoUongAdapter(Context context, List<Product> listProduct, User user, ActivityResultLauncher<Intent> activityResultLauncher) {
-//        this.context = context;
-//        this.listProduct = listProduct;
-//        this.user = user;
-//        this.activityResultLauncher = activityResultLauncher;
-//    }
-
-    public RCDoUongAdapter(Context context, List<Product> listProduct, User user) {
+    public RCDoUongAdapter(Context context, List<Product> listProduct, User user, ActivityResultLauncher<Intent> activityResultLauncher) {
         this.context = context;
         this.listProduct = listProduct;
         this.user = user;
+        this.activityResultLauncher = activityResultLauncher;
     }
+
+//    public RCDoUongAdapter(Context context, List<Product> listProduct, User user) {
+//        this.context = context;
+//        this.listProduct = listProduct;
+//        this.user = user;
+//    }
 
     public void setData(List<Product> list){
         this.listProduct = list;
@@ -83,6 +86,8 @@ public class RCDoUongAdapter extends RecyclerView.Adapter<RCDoUongAdapter.DoUong
             String formatted_gia_goc = decimalFormat.format(product.getGiaSanPham());
             holder.tvGiaGoc.setText(formatted_gia_goc);
             holder.tvGiaGoc.setPaintFlags(holder.tvGiaGoc.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        } else {
+            holder.tvGiaGoc.setText("");
         }
 
         holder.imgXoaDoUong.setOnClickListener(new View.OnClickListener() {
@@ -117,6 +122,19 @@ public class RCDoUongAdapter extends RecyclerView.Adapter<RCDoUongAdapter.DoUong
                     }
                 });
                 builder.create().show();
+            }
+        });
+
+        holder.imgSuaDoUong.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intentSuaDoUong = new Intent(context, ChinhSuaDoUongActivity.class);
+                Bundle data = new Bundle();
+                data.putSerializable("user", user);
+                data.putSerializable("product", product);
+                intentSuaDoUong.putExtras(data);
+
+                activityResultLauncher.launch(intentSuaDoUong);
             }
         });
     }

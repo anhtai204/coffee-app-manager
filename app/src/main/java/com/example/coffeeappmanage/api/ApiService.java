@@ -4,15 +4,24 @@ package com.example.coffeeappmanage.api;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 
+import com.example.coffeeappmanage.model.KhuyenMai;
+import com.example.coffeeappmanage.model.Product;
+import com.example.coffeeappmanage.model.Product_1;
+import com.example.coffeeappmanage.model.ResponseBoolean;
 import com.example.coffeeappmanage.model.ResponseCountRate;
 import com.example.coffeeappmanage.model.ResponseDonHang;
+import com.example.coffeeappmanage.model.ResponseKhuyenMai;
 import com.example.coffeeappmanage.model.ResponseLatestIdDonHang;
 import com.example.coffeeappmanage.model.ResponseProduct;
+import com.example.coffeeappmanage.model.ResponseProduct_1;
+import com.example.coffeeappmanage.model.ResponseSingleKhuyenMai;
 import com.example.coffeeappmanage.model.ResponseSingleTheLoai;
+import com.example.coffeeappmanage.model.ResponseSingleTopping;
 import com.example.coffeeappmanage.model.ResponseTheLoai;
 import com.example.coffeeappmanage.model.ResponseTopping;
 import com.example.coffeeappmanage.model.ResponseUser;
 import com.example.coffeeappmanage.model.TheLoai;
+import com.example.coffeeappmanage.model.Topping;
 import com.example.coffeeappmanage.model.User;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -69,6 +78,13 @@ public interface ApiService {
 
     @DELETE("product/delete-product/{id_product}")
     Call<Void> deleteProduct(@Path("id_product") int id_product);
+
+    @POST("product")
+    Call<ResponseProduct_1> createProduct(@Body Product_1 product1);
+
+    @PUT("product/update-product/{id_product}")
+    Call<ResponseProduct_1> updateProduct(@Path("id_product") int id_product,
+                                        @Body Product new_product);
 
 
 
@@ -182,7 +198,9 @@ public interface ApiService {
     Call<ResponseTheLoai> getAllTheLoai();
 
     @DELETE("theloai/xoa-the-loai/{id_theLoai}")
-    Call<Void> xoaTheLoai(@Path("id_theLoai") int id_theLoai);
+//    Call<Void> xoaTheLoai(@Path("id_theLoai") int id_theLoai);
+    Call<ResponseBoolean> xoaTheLoai(@Path("id_theLoai") int id_theLoai);
+
 
     @FormUrlEncoded
     @PUT("theloai/sua-the-loai/{id_theLoai}")
@@ -197,5 +215,32 @@ public interface ApiService {
 //    Call<Void> createTheLoai(@Body TheLoai theLoai);
 
 
+
+    @DELETE("topping/delete-topping/{id_topping}")
+    Call<Void> deleteTopping(@Path("id_topping") int id_topping);
+
+
+    @POST("topping")
+    Call<ResponseSingleTopping> createTopping(@Body Topping topping);
+
+    @PUT("topping/update-topping/{id_topping}")
+    Call<ResponseSingleTopping> updateTopping(@Path("id_topping") int id_topping,
+                                          @Body Topping new_product);
+
+
+
+
+    @GET("khuyenmai")
+    Call<ResponseKhuyenMai> getAllKhuyenMai();
+
+    @DELETE("khuyenmai/delete-khuyen-mai/{id_khuyen_mai}")
+    Call<Void> deleteKhuyenMai(@Path("id_khuyen_mai") int id_khuyen_mai);
+
+    @POST("khuyenmai")
+    Call<ResponseSingleKhuyenMai> createKhuyenMai(@Body KhuyenMai khuyenMai);
+
+    @PUT("khuyenmai/update-khuyen-mai/{id_khuyen_mai}")
+    Call<ResponseSingleKhuyenMai> updateKhuyenMai(@Path("id_khuyen_mai") int id_khuyen_mai,
+                                              @Body KhuyenMai update_khuyenMai);
 
 }

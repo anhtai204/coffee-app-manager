@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
@@ -21,27 +22,29 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.coffeeappmanage.R;
 import com.example.coffeeappmanage.api.ApiService;
-import com.example.coffeeappmanage.model.Product;
-import com.example.coffeeappmanage.model.TheLoai;
+import com.example.coffeeappmanage.model.KhuyenMai;
+import com.example.coffeeappmanage.model.ResponseSingleKhuyenMai;
+import com.example.coffeeappmanage.model.ResponseSingleTopping;
+import com.example.coffeeappmanage.model.Topping;
 import com.example.coffeeappmanage.model.User;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ChinhSuaTheLoaiActivity extends AppCompatActivity {
+public class ChinhSuaKhuyenMaiActivity extends AppCompatActivity {
 
-    User user;
-    TheLoai theLoai;
     Toolbar toolbar;
-    EditText edtTenTheLoai;
-    TextView btnCapNhatTheLoai;
+    private User user;
+    KhuyenMai khuyenMai;
+    EditText edtPhanTramKhuyenMaiSua, edtDieuKienKhuyenMaiSua;
+    TextView btnSuaKhuyenMai;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_chinh_sua_the_loai);
+        setContentView(R.layout.activity_chinh_sua_khuyen_mai);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -50,29 +53,30 @@ public class ChinhSuaTheLoaiActivity extends AppCompatActivity {
 
         if(getIntent().getExtras() != null) {
             user = (User) getIntent().getExtras().get("user");
-            theLoai = (TheLoai) getIntent().getExtras().get("theloai");
+            khuyenMai = (KhuyenMai) getIntent().getExtras().get("khuyenmai");
         }
 
-        Log.d("thể loại: ", theLoai.toString());
-        Log.d("user: ", user.toString());
-
-        toolbar = findViewById(R.id.toolbarTheLoai);
+        toolbar = findViewById(R.id.toolbarSuaKhuyenMai);
         setSupportActionBar(toolbar);
 
-        edtTenTheLoai = findViewById(R.id.edtTenTheLoai);
-        btnCapNhatTheLoai = findViewById(R.id.btnCapNhatTheLoai);
+        edtPhanTramKhuyenMaiSua = findViewById(R.id.edtPhanTramKhuyenMaiSua);
+        edtPhanTramKhuyenMaiSua.setText(khuyenMai.getPhanTramKhuyenMai()+"");
+        edtDieuKienKhuyenMaiSua = findViewById(R.id.edtDieuKienKhuyenMaiSua);
+        edtDieuKienKhuyenMaiSua.setText(khuyenMai.getDonHangToiThieu()+"");
+        btnSuaKhuyenMai = findViewById(R.id.btnSuaKhuyenMai);
 
-        edtTenTheLoai.setText(theLoai.getTen_the_loai());
-
-        btnCapNhatTheLoai.setOnClickListener(new View.OnClickListener() {
+        btnSuaKhuyenMai.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int id_theLoai = theLoai.getId_theLoai();
-                String new_tenTheLoai = edtTenTheLoai.getText().toString();
+                int id_khuyen_mai = khuyenMai.getId_khuyen_mai();
+                float new_phanTramKhuyenMai = Float.parseFloat(edtPhanTramKhuyenMaiSua.getText().toString().trim());
+                float new_dieuKienKhuyenMai = Float.parseFloat(edtDieuKienKhuyenMaiSua.getText().toString().trim());
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(ChinhSuaTheLoaiActivity.this);
+                KhuyenMai updatedKhuyenMai = new KhuyenMai(0, new_phanTramKhuyenMai, new_dieuKienKhuyenMai);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(ChinhSuaKhuyenMaiActivity.this);
                 builder.setTitle("Update");
-                builder.setMessage("Bạn có chắc muốn thay đổi tên thể loại!");
+                builder.setMessage("Bạn có chắc muốn thay đổi khuyến mại!");
                 builder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -82,23 +86,22 @@ public class ChinhSuaTheLoaiActivity extends AppCompatActivity {
                 builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        ApiService.apiService.updateTheLoai(id_theLoai, new_tenTheLoai).enqueue(new Callback<Void>() {
+                        ApiService.apiService.updateKhuyenMai(id_khuyen_mai, updatedKhuyenMai).enqueue(new Callback<ResponseSingleKhuyenMai>() {
                             @Override
-                            public void onResponse(Call<Void> call, Response<Void> response) {
+                            public void onResponse(Call<ResponseSingleKhuyenMai> call, Response<ResponseSingleKhuyenMai> response) {
                                 if (response.isSuccessful()) {
-
-                                    TheLoai updatedTheLoai = new TheLoai(id_theLoai, new_tenTheLoai);
-                                    // Sau khi người dùng chỉnh sửa thể loại thành công
                                     Intent resultIntent = new Intent();
-                                    resultIntent.putExtra("updatedTheLoai", updatedTheLoai); // updatedTheLoai là đối tượng TheLoai đã chỉnh sửa
+                                    resultIntent.putExtra("updatedKhuyenMai", updatedKhuyenMai);
                                     setResult(Activity.RESULT_OK, resultIntent);
                                     finish(); // Đóng activity và quay lại fragment
+                                    Toast.makeText(ChinhSuaKhuyenMaiActivity.this, "Update khuyenMai successed!", Toast.LENGTH_SHORT).show();
                                 }
                             }
 
                             @Override
-                            public void onFailure(Call<Void> call, Throwable throwable) {
-
+                            public void onFailure(Call<ResponseSingleKhuyenMai> call, Throwable throwable) {
+                                Toast.makeText(ChinhSuaKhuyenMaiActivity.this, "update khuyenMai failed", Toast.LENGTH_SHORT).show();
+                                Log.d("error update: ", throwable.toString());
                             }
                         });
                     }
@@ -106,7 +109,6 @@ public class ChinhSuaTheLoaiActivity extends AppCompatActivity {
                 builder.create().show();
             }
         });
-
 
     }
 

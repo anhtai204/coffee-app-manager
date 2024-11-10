@@ -23,6 +23,7 @@ import com.example.coffeeappmanage.activity.user.DanhGiaActivity;
 import com.example.coffeeappmanage.activity.user.OrderProductActivity;
 import com.example.coffeeappmanage.api.ApiService;
 import com.example.coffeeappmanage.model.Product;
+import com.example.coffeeappmanage.model.ResponseBoolean;
 import com.example.coffeeappmanage.model.TheLoai;
 import com.example.coffeeappmanage.model.User;
 
@@ -102,16 +103,37 @@ public class RCTheLoaiAdapter extends RecyclerView.Adapter<RCTheLoaiAdapter.TheL
                     builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            ApiService.apiService.xoaTheLoai(theLoai.getId_theLoai()).enqueue(new Callback<Void>() {
+//                            ApiService.apiService.xoaTheLoai(theLoai.getId_theLoai()).enqueue(new Callback<Void>() {
+//                                @Override
+//                                public void onResponse(Call<Void> call, Response<Void> response) {
+//                                    listTheLoai.remove(theLoai);
+//                                    notifyDataSetChanged(); // Cập nhật toàn bộ danh sách
+//                                    Toast.makeText(context, "Xóa thể loại thành công!", Toast.LENGTH_SHORT).show();
+//                                }
+//
+//                                @Override
+//                                public void onFailure(Call<Void> call, Throwable throwable) {
+//                                    Toast.makeText(context, "Xóa thể loại thất bại!", Toast.LENGTH_SHORT).show();
+//                                }
+//                            });
+                            ApiService.apiService.xoaTheLoai(theLoai.getId_theLoai()).enqueue(new Callback<ResponseBoolean>() {
                                 @Override
-                                public void onResponse(Call<Void> call, Response<Void> response) {
-                                    listTheLoai.remove(theLoai);
-                                    notifyDataSetChanged(); // Cập nhật toàn bộ danh sách
-                                    Toast.makeText(context, "Xóa thể loại thành công!", Toast.LENGTH_SHORT).show();
+                                public void onResponse(Call<ResponseBoolean> call, Response<ResponseBoolean> response) {
+                                    if(response.isSuccessful()){
+                                        ResponseBoolean responseBoolean = response.body();
+                                        Boolean check = responseBoolean.getData();
+                                        if(!check){
+                                            Toast.makeText(context, "Sản phẩm loại này có tồn tại!", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            listTheLoai.remove(theLoai);
+                                            notifyDataSetChanged(); // Cập nhật toàn bộ danh sách
+                                            Toast.makeText(context, "Xóa thể loại thành công!", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
                                 }
 
                                 @Override
-                                public void onFailure(Call<Void> call, Throwable throwable) {
+                                public void onFailure(Call<ResponseBoolean> call, Throwable throwable) {
                                     Toast.makeText(context, "Xóa thể loại thất bại!", Toast.LENGTH_SHORT).show();
                                 }
                             });
@@ -137,12 +159,6 @@ public class RCTheLoaiAdapter extends RecyclerView.Adapter<RCTheLoaiAdapter.TheL
                         theLoai.getTen_the_loai().equals("Sinh Tố")){
                     Toast.makeText(context, "Thể loại bắt buộc, không thể sửa!", Toast.LENGTH_SHORT).show();
                 } else {
-//                    Intent intentSuaTheLoai = new Intent(context, ChinhSuaTheLoaiActivity.class);
-//                    Bundle data = new Bundle();
-//                    data.putSerializable("user", user);
-//                    data.putSerializable("theloai", theLoai);
-//                    intentSuaTheLoai.putExtras(data);
-//                    context.startActivity(intentSuaTheLoai);
 
                     Intent intentSuaTheLoai = new Intent(context, ChinhSuaTheLoaiActivity.class);
                     Bundle data = new Bundle();

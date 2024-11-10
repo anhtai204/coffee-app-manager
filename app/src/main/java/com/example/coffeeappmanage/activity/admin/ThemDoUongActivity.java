@@ -1,5 +1,7 @@
 package com.example.coffeeappmanage.activity.admin;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -22,6 +24,10 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.coffeeappmanage.R;
 import com.example.coffeeappmanage.api.ApiService;
+import com.example.coffeeappmanage.model.Product;
+import com.example.coffeeappmanage.model.Product_1;
+import com.example.coffeeappmanage.model.ResponseProduct_1;
+import com.example.coffeeappmanage.model.ResponseSingleTheLoai;
 import com.example.coffeeappmanage.model.ResponseTheLoai;
 import com.example.coffeeappmanage.model.TheLoai;
 import com.example.coffeeappmanage.model.User;
@@ -39,8 +45,11 @@ public class ThemDoUongActivity extends AppCompatActivity {
     private User user;
     Spinner spnTheLoai;
     TheLoaiAdapter theLoaiAdapter;
-    EditText edtTenDoUong, edtGiaDoUong, edtKhuyenMaiDoUong, edtHinhAnhDoUong;
+    EditText edtTenDoUong, edtGiaDoUong, edtKhuyenMaiDoUong, edtHinhAnhDoUong, edtMoTaDoUong;
     TextView btnThemTheLoai;
+    float khuyenmai = 0;
+    TheLoai theLoai;
+    String path_logo = "C:\\Users\\Admin\\AndroidStudioProjects\\Coffee_App\\CoffeeAppManage\\app\\src\\main\\res\\drawable\\caphe1.jpg";
 
 
     @Override
@@ -58,7 +67,7 @@ public class ThemDoUongActivity extends AppCompatActivity {
         if(getIntent().getExtras() != null){
             user = (User) getIntent().getExtras().get("user");
 
-            Log.d("ChangePasswordActivity user: ", user.toString());
+            Log.d("ThemDoUongActivity user: ", user.toString());
 
         }
 
@@ -71,7 +80,8 @@ public class ThemDoUongActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 Toast.makeText(ThemDoUongActivity.this, theLoaiAdapter.getItem(i).getTen_the_loai(), Toast.LENGTH_SHORT).show();
-                Log.d("The loai: ", theLoaiAdapter.getItem(i).toString());
+//                Log.d("The loai: ", theLoaiAdapter.getItem(i).toString());
+                theLoai = theLoaiAdapter.getItem(i);
             }
 
             @Override
@@ -85,8 +95,62 @@ public class ThemDoUongActivity extends AppCompatActivity {
         edtKhuyenMaiDoUong = findViewById(R.id.edtKhuyenMaiDoUong);
         edtHinhAnhDoUong = findViewById(R.id.edtHinhAnhDoUong);
         btnThemTheLoai = findViewById(R.id.btnThemTheLoai);
+        edtMoTaDoUong = findViewById(R.id.edtMoTaDoUong);
+
+        btnThemTheLoai.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (edtTenDoUong.getText().toString().trim().equals("") || 
+                    edtGiaDoUong.getText().toString().trim().equals("") ||
+                    edtMoTaDoUong.getText().toString().trim().equals("")){
+                    Toast.makeText(ThemDoUongActivity.this, "Nhập đầy đủ thông tin!", Toast.LENGTH_SHORT).show();
+                } else {
+                    if(!edtKhuyenMaiDoUong.getText().toString().equals("")){
+                        khuyenmai = Float.parseFloat(edtKhuyenMaiDoUong.getText().toString().trim());
+                        if(khuyenmai >= 100){
+                            Toast.makeText(ThemDoUongActivity.this, "Khuyến mại không hợp lệ!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    if(!edtHinhAnhDoUong.getText().toString().trim().equals("")){
+                        path_logo = edtHinhAnhDoUong.getText().toString().trim();
+                    }
+                    String moTaDoUong = edtMoTaDoUong.getText().toString().trim();
+                    String tenDoUong = edtTenDoUong.getText().toString().trim();
+                    float giaDoUong = Float.parseFloat(edtGiaDoUong.getText().toString().trim());
+
+                    Log.d("ten san pham: ", tenDoUong);
+                    Log.d("gia san pham: ", giaDoUong+"");
+                    Log.d("khuyen mai gia: ", khuyenmai+"");
+                    Log.d("logo: ", path_logo);
+                    Log.d("mo ta: ", moTaDoUong);
+                    Log.d("the loai: ", theLoai.toString());
 
 
+                    Product_1 product = new Product_1(0, tenDoUong, giaDoUong, khuyenmai, path_logo, moTaDoUong,
+                            theLoai, null);
+
+                    ApiService.apiService.createProduct(product).enqueue(new Callback<ResponseProduct_1>() {
+                        @Override
+                        public void onResponse(Call<ResponseProduct_1> call, Response<ResponseProduct_1> response) {
+                            ResponseProduct_1 responseProduct1 = response.body();
+                            Product_1 newProduct = responseProduct1.getData();
+                            int statusCode = responseProduct1.getStatusCode();
+                            String message = responseProduct1.getMessage();
+
+                            Intent resultIntent = new Intent();
+                            resultIntent.putExtra("newProduct", newProduct);
+                            setResult(Activity.RESULT_OK, resultIntent); // Trả kết quả về Fragment
+                            finish(); // Đóng activity
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponseProduct_1> call, Throwable throwable) {
+
+                        }
+                    });
+                }
+            }
+        });
 
 
 

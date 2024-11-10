@@ -74,7 +74,6 @@ public class AccountUserFragment extends Fragment {
         tvDangXuat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                getActivity().finish();
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
                 builder.setTitle("Thoát");
@@ -98,7 +97,6 @@ public class AccountUserFragment extends Fragment {
         imgDangXuat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                getActivity().finish();
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
                 builder.setTitle("Thoát");
