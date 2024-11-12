@@ -6,6 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,12 +20,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.coffeeappmanage.R;
 import com.example.coffeeappmanage.activity.RecyclerProduct.RCProductAdapter;
 import com.example.coffeeappmanage.activity.RecyclerProduct.RCProductGioHangAdapter;
+import com.example.coffeeappmanage.api.ApiService;
 import com.example.coffeeappmanage.model.DonHang;
 import com.example.coffeeappmanage.model.Product;
+import com.example.coffeeappmanage.model.ResponseDonHang;
+import com.example.coffeeappmanage.model.ResponseProduct;
 import com.example.coffeeappmanage.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class GioHangActivity extends AppCompatActivity {
 
@@ -53,6 +61,8 @@ public class GioHangActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        listDonHang = new ArrayList<>();
+
         // Nhận đối tượng User từ Bundle
         if(getIntent().getExtras() != null){
             DonHang donHang = (DonHang) getIntent().getExtras().get("donhang");
@@ -60,10 +70,15 @@ public class GioHangActivity extends AppCompatActivity {
 
             listDonHang.add(donHang);
 
-            Log.d("GioHangActivity listDonHang: ", donHang.toString());
+            Log.d("GioHangActivity donhang: ", donHang.toString());
             Log.d("GioHangActivity user: ", user.toString());
 
         }
+
+//        listDonHang.add(new DonHang(2, 1, 3, "abc", "dathang", 15000, "ngon", 4));
+//        listDonHang.add(new DonHang(2, 2, 1, "cba", "dathang", 60000, "ngon", 5));
+//        listDonHang.add(new DonHang(2, 3, 2, "cab", "dathang", 19000, "ngon", 6));
+
 
         tvThemVaoGioHang = findViewById(R.id.tvThemVaoGioHang);
         tvPhuongThucThanhToan = findViewById(R.id.tvPhuongThucThanhToan);
@@ -84,13 +99,17 @@ public class GioHangActivity extends AppCompatActivity {
         rcGioHang = findViewById(R.id.rcGioHang);
         rcGioHang.setLayoutManager(new LinearLayoutManager(this));
         rcGioHang.setHasFixedSize(true);
-        listDonHang = new ArrayList<>();
 
         rcProductGioHangAdapter = new RCProductGioHangAdapter(this, listDonHang, user);
         rcGioHang.setAdapter(rcProductGioHangAdapter); // Thiết lập adapter ngay lập tức
+        rcProductGioHangAdapter.setData(listDonHang);
+
+        Log.d("listDonHang: ", listDonHang.toString());
+
 
 
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

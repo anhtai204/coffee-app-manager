@@ -44,6 +44,7 @@ public class ViewUserAdapter extends FragmentStateAdapter {
     @Override
     public Fragment createFragment(int position) {
         Fragment fragment = null;
+        Bundle bundle = new Bundle();
 
         switch (position) {
             case 0:
@@ -61,7 +62,6 @@ public class ViewUserAdapter extends FragmentStateAdapter {
 
         // Truyền đối tượng User vào mỗi Fragment qua Bundle
         if (fragment != null) {
-            Bundle bundle = new Bundle();
             bundle.putSerializable("user", user);  // Truyền đối tượng User vào Bundle
             fragment.setArguments(bundle);  // Đặt Bundle vào Fragment
         }

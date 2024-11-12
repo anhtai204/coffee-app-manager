@@ -1,25 +1,26 @@
 package com.example.coffeeappmanage.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class ResponseDonHang implements Serializable {
-    private DonHang data;
+    private List<DonHang> data;
     private int statusCode;
     private String message;
 
     public ResponseDonHang(){}
 
-    public ResponseDonHang(DonHang data, int statusCode, String message) {
+    public ResponseDonHang(List<DonHang> data, int statusCode, String message) {
         this.data = data;
         this.statusCode = statusCode;
         this.message = message;
     }
 
-    public DonHang getData() {
+    public List<DonHang> getData() {
         return data;
     }
 
-    public void setData(DonHang data) {
+    public void setData(List<DonHang> data) {
         this.data = data;
     }
 

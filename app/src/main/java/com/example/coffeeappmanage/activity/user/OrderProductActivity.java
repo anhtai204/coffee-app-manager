@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,8 +30,7 @@ import com.example.coffeeappmanage.api.ApiService;
 import com.example.coffeeappmanage.model.DonHang;
 import com.example.coffeeappmanage.model.Product;
 import com.example.coffeeappmanage.model.ResponseCountRate;
-import com.example.coffeeappmanage.model.ResponseDonHang;
-import com.example.coffeeappmanage.model.ResponseLatestIdDonHang;
+import com.example.coffeeappmanage.model.ResponseSingleDonHang;
 import com.example.coffeeappmanage.model.ResponseTopping;
 import com.example.coffeeappmanage.model.Topping;
 import com.example.coffeeappmanage.model.User;
@@ -64,6 +62,8 @@ public class OrderProductActivity extends AppCompatActivity {
     DonHang donHang;
     Product product;
 
+    float giaTopping = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +74,7 @@ public class OrderProductActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -152,74 +153,7 @@ public class OrderProductActivity extends AppCompatActivity {
             int gia = extractNumber(tvGiaSanPham.getText().toString());
             Log.d("gia", gia+"");
 
-            tvThemGioHang = findViewById(R.id.tvThemGioHang);
-            tvThemGioHang.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-//                    Toast.makeText(OrderProductActivity.this, "So luong: " + count + ", gia: " + giaCuoi , Toast.LENGTH_SHORT).show();
 
-                    selectedToppings = rcToppingAdapter.getSelectedToppings(); // Lấy topping đã chọn
-
-//                    Log.d("tùy chỉnh đồ uống: ", tuyChinhDoUong);
-//                    Log.d("tùy chỉnh kích thước: ", tuyChinhKichThuoc);
-//                    Log.d("tùy chỉnh đường: ", tuyChinhDuong);
-//                    Log.d("Ghi chú: ", edtGhiChu.getText().toString());
-
-
-                    Log.d("id_user: ", user.getId_user()+"");
-                    Log.d("id_product: ", product.getId_product()+"");
-                    Log.d("status: ", edtGhiChu.getText().toString());
-                    Log.d("giaDonHang: ", giaCuoi+"");
-                    Log.d("soLuong:", count+"");
-
-                    String tuyChinh = tuyChinhDoUong + " - " + tuyChinhKichThuoc + " - " + tuyChinhDuong;
-
-
-                    ApiService.apiService.themVaoGioHang(user.getId_user(), product.getId_product(), count, tuyChinh,
-                            "dathang", giaCuoi, edtGhiChu.getText().toString()).enqueue(new Callback<ResponseDonHang>() {
-                        @Override
-                        public void onResponse(Call<ResponseDonHang> call, Response<ResponseDonHang> response) {
-                            ResponseDonHang responseDonHang = response.body();
-                            donHang = responseDonHang.getData();
-                            Log.d("don hang: ", donHang.toString());
-
-                            if (selectedToppings.size() != 0){
-                                for (Topping topping : selectedToppings){
-                                    int toppingId = topping.getId_topping();
-                                    ApiService.apiService.insertProductTopping(donHang.getId_donHang(), toppingId).enqueue(new Callback<Void>() {
-                                        @Override
-                                        public void onResponse(Call<Void> call, Response<Void> response) {
-                                            Toast.makeText(OrderProductActivity.this, "inserted product topping successfuled!", Toast.LENGTH_SHORT).show();
-                                        }
-
-                                        @Override
-                                        public void onFailure(Call<Void> call, Throwable throwable) {
-                                            check = false;
-                                        }
-                                    });
-                                }
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<ResponseDonHang> call, Throwable throwable) {
-                            check = false;
-                        }
-                    });
-
-
-                    if(check == true){
-                        Intent intentThemGioHang = new Intent(OrderProductActivity.this, GioHangActivity.class);
-                        Bundle data1 = new Bundle();
-                        data1.putSerializable("donhang", donHang);
-                        data1.putSerializable("user", user);
-                        intentThemGioHang.putExtras(data1);
-                        startActivity(intentThemGioHang);
-                    }
-
-
-                }
-            });
 
             tvDanhGia = findViewById(R.id.tvDanhGia);
             imgDanhGia = findViewById(R.id.imgDanhGia);
@@ -246,8 +180,89 @@ public class OrderProductActivity extends AppCompatActivity {
                 }
             });
 
+
+            tvThemGioHang = findViewById(R.id.tvThemGioHang);
+            tvThemGioHang.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    selectedToppings = rcToppingAdapter.getSelectedToppings(); // Lấy topping đã chọn
+
+                    Log.d("id_user: ", user.getId_user()+"");
+                    Log.d("id_product: ", product.getId_product()+"");
+                    Log.d("status: ", edtGhiChu.getText().toString());
+                    Log.d("giaDonHang: ", giaCuoi+"");
+                    Log.d("soLuong:", count+"");
+
+                    String tuyChinh = tuyChinhDoUong + " - " + tuyChinhKichThuoc + " - " + tuyChinhDuong;
+
+
+                    ApiService.apiService.themVaoGioHang(user.getId_user(), product.getId_product(), count, tuyChinh,
+                            "dathang", giaCuoi, edtGhiChu.getText().toString()).enqueue(new Callback<ResponseSingleDonHang>() {
+                        @Override
+                        public void onResponse(Call<ResponseSingleDonHang> call, Response<ResponseSingleDonHang> response) {
+                            ResponseSingleDonHang responseDonHang = response.body();
+                            donHang = responseDonHang.getData();
+                            Log.d("don hang: ", donHang.toString());
+
+                            if (selectedToppings.size() != 0) {
+                                for (Topping topping : selectedToppings) {
+                                    int toppingId = topping.getId_topping();
+                                    ApiService.apiService.insertProductTopping(donHang.getId_donHang(), toppingId).enqueue(new Callback<Void>() {
+                                        @Override
+                                        public void onResponse(Call<Void> call, Response<Void> response) {
+                                            // Check successful transaction for each topping
+                                            if (callToppingsSuccess()) {
+                                                // Only call goToCartActivity() after all insert operations are successful
+                                                goToCartActivity();
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call<Void> call, Throwable throwable) {
+                                            check = false;
+                                        }
+                                    });
+                                }
+                            } else {
+                                goToCartActivity(); // No toppings to insert, directly navigate.
+                            }
+                        }
+
+
+                        @Override
+                        public void onFailure(Call<ResponseSingleDonHang> call, Throwable throwable) {
+                            check = false;
+                            // Handle failure
+                        }
+                    });
+                }
+            });
         }
     }
+
+    private void goToCartActivity() {
+        if (check) {
+            new Handler().post(() -> {
+                Intent intentThemGioHang = new Intent(OrderProductActivity.this, DatHangActivity.class);
+                Bundle data_giohang = new Bundle();
+                data_giohang.putSerializable("donhang", donHang);
+                data_giohang.putSerializable("user", user);
+                data_giohang.putFloat("giaTopping", giaTopping);
+                intentThemGioHang.putExtras(data_giohang);
+                startActivity(intentThemGioHang);
+            });
+
+        }
+    }
+
+
+    private boolean callToppingsSuccess() {
+        // Kiểm tra nếu tất cả các cuộc gọi liên quan đến topping thành công
+        return check;
+    }
+
+
     public static int extractNumber(String input) {
         String numberString = input.replaceAll("[^0-9]", "");
 
@@ -283,14 +298,31 @@ public class OrderProductActivity extends AppCompatActivity {
         });
     }
 
+//    private void updateTotalPrice() {
+//        int gia = extractNumber(tvGiaSanPham.getText().toString());
+//        giaCuoi = gia * count;
+//
+//        DecimalFormat decimalFormat = new DecimalFormat("#,###");
+//
+//        tvGiaCuoi.setText(decimalFormat.format(giaCuoi)+"vnd");
+//    }
+
     private void updateTotalPrice() {
         int gia = extractNumber(tvGiaSanPham.getText().toString());
-        giaCuoi = gia * count;
+        int giaToppings = 0;
+
+        // Tính giá của tất cả topping đã chọn
+        for (Topping topping : selectedToppings) {
+            giaToppings += topping.getGiaTopping();
+        }
+
+        // Cập nhật giá cuối cùng với giá sản phẩm và giá topping
+        giaCuoi = (gia * count) + (giaToppings*count);
 
         DecimalFormat decimalFormat = new DecimalFormat("#,###");
-
-        tvGiaCuoi.setText(decimalFormat.format(giaCuoi)+"vnd");
+        tvGiaCuoi.setText(decimalFormat.format(giaCuoi) + "vnd"); // Cập nhật UI
     }
+
 
     private void createRecyclerTopping() {
         RecyclerView rcv_topping = findViewById(R.id.rcv_topping);
@@ -341,7 +373,9 @@ public class OrderProductActivity extends AppCompatActivity {
             giaToppings += topping.getGiaTopping(); // Cộng giá của từng topping
         }
 
-        giaCuoi = (gia * count) + giaToppings;
+        giaTopping = giaToppings;
+
+        giaCuoi = (gia * count) + (giaToppings*count);
 
         DecimalFormat decimalFormat = new DecimalFormat("#,###");
         tvGiaCuoi.setText(decimalFormat.format(giaCuoi) + "vnd"); // Update UI with new price

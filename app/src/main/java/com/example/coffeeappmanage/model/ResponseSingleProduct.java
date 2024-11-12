@@ -1,16 +1,15 @@
 package com.example.coffeeappmanage.model;
 
 import java.io.Serializable;
-import java.util.List;
 
-public class ResponseProduct_1 implements Serializable {
+public class ResponseSingleProduct implements Serializable {
     private Product_1 data;
     private int statusCode;
     private String message;
 
-    public ResponseProduct_1(){}
+    public ResponseSingleProduct(){}
 
-    public ResponseProduct_1(Product_1 data, int statusCode, String message) {
+    public ResponseSingleProduct(Product_1 data, int statusCode, String message) {
         this.data = data;
         this.statusCode = statusCode;
         this.message = message;

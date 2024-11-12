@@ -25,8 +25,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.coffeeappmanage.R;
 import com.example.coffeeappmanage.api.ApiService;
 import com.example.coffeeappmanage.model.Product;
-import com.example.coffeeappmanage.model.ResponseProduct;
-import com.example.coffeeappmanage.model.ResponseProduct_1;
+import com.example.coffeeappmanage.model.ResponseSingleProduct;
 import com.example.coffeeappmanage.model.ResponseTheLoai;
 import com.example.coffeeappmanage.model.TheLoai;
 import com.example.coffeeappmanage.model.User;
@@ -125,9 +124,9 @@ public class ChinhSuaDoUongActivity extends AppCompatActivity {
                 builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        ApiService.apiService.updateProduct(id_product, new_product).enqueue(new Callback<ResponseProduct_1>() {
+                        ApiService.apiService.updateProduct(id_product, new_product).enqueue(new Callback<ResponseSingleProduct>() {
                             @Override
-                            public void onResponse(Call<ResponseProduct_1> call, Response<ResponseProduct_1> response) {
+                            public void onResponse(Call<ResponseSingleProduct> call, Response<ResponseSingleProduct> response) {
                                 if (response.isSuccessful()) {
                                     Intent resultIntent = new Intent();
                                     resultIntent.putExtra("updatedProduct", new_product);
@@ -138,7 +137,7 @@ public class ChinhSuaDoUongActivity extends AppCompatActivity {
                             }
 
                             @Override
-                            public void onFailure(Call<ResponseProduct_1> call, Throwable throwable) {
+                            public void onFailure(Call<ResponseSingleProduct> call, Throwable throwable) {
                                 Toast.makeText(ChinhSuaDoUongActivity.this, "update product failed", Toast.LENGTH_SHORT).show();
                                 Log.d("error update: ", throwable.toString());
                             }

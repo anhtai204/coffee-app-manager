@@ -4,9 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="120dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center"
     android:orientation="vertical">
 
     <LinearLayout
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_width="match_parent"
         android:layout_height="110dp"
         android:orientation="horizontal">
@@ -45,27 +48,28 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:text="Coffee Marshmallow"
-                android:textSize="7pt"
+                android:textSize="6.5pt"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
 
             <TextView
                 android:id="@+id/tvGioHangTuyChinh"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="8dp"
                 android:text="Đá - Nhỏ - Thường"
+                android:textSize="6pt"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvGioHangTenSP" />
-
 
             <ImageView
                 android:id="@+id/imgGioHangXoa"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="168dp"
+                android:layout_marginStart="132dp"
                 android:layout_marginBottom="16dp"
                 android:src="@drawable/baseline_delete_outline_24"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -85,8 +89,8 @@
                 android:id="@+id/linearLayout"
                 android:layout_width="65dp"
                 android:layout_height="20dp"
-                android:layout_marginStart="28dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="20dp"
                 android:background="@drawable/rectangle_border"
                 android:gravity="center_vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -123,22 +127,26 @@
                 android:id="@+id/tvGioHangGia"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="88dp"
+                android:layout_marginStart="48dp"
                 android:layout_marginTop="16dp"
                 android:text="30.000vnd"
                 android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.866"
                 app:layout_constraintStart_toEndOf="@+id/tvGioHangTenSP"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
-                android:layout_marginEnd="32dp"
+                android:layout_marginEnd="56dp"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toTopOf="@+id/linearLayout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvGioHangGia"
-                app:layout_constraintVertical_bias="0.482">
+                app:layout_constraintVertical_bias="0.666">
 
                 <TextView
                     android:layout_width="match_parent"

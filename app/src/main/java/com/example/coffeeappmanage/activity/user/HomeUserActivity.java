@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import androidx.fragment.app.Fragment;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -57,7 +58,6 @@ public class HomeUserActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
 //        ViewUserAdapter viewUserAdapter = new ViewUserAdapter(fragmentManager, getLifecycle());
         ViewUserAdapter viewUserAdapter = new ViewUserAdapter(fragmentManager, getLifecycle(), user);
-
 
         viewPager.setAdapter(viewUserAdapter);
 

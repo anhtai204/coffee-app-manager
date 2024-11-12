@@ -8,8 +8,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -24,15 +22,12 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.coffeeappmanage.R;
 import com.example.coffeeappmanage.api.ApiService;
-import com.example.coffeeappmanage.model.Product;
 import com.example.coffeeappmanage.model.Product_1;
-import com.example.coffeeappmanage.model.ResponseProduct_1;
-import com.example.coffeeappmanage.model.ResponseSingleTheLoai;
+import com.example.coffeeappmanage.model.ResponseSingleProduct;
 import com.example.coffeeappmanage.model.ResponseTheLoai;
 import com.example.coffeeappmanage.model.TheLoai;
 import com.example.coffeeappmanage.model.User;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -130,10 +125,10 @@ public class ThemDoUongActivity extends AppCompatActivity {
                     Product_1 product = new Product_1(0, tenDoUong, giaDoUong, khuyenmai, path_logo, moTaDoUong,
                             theLoai, null);
 
-                    ApiService.apiService.createProduct(product).enqueue(new Callback<ResponseProduct_1>() {
+                    ApiService.apiService.createProduct(product).enqueue(new Callback<ResponseSingleProduct>() {
                         @Override
-                        public void onResponse(Call<ResponseProduct_1> call, Response<ResponseProduct_1> response) {
-                            ResponseProduct_1 responseProduct1 = response.body();
+                        public void onResponse(Call<ResponseSingleProduct> call, Response<ResponseSingleProduct> response) {
+                            ResponseSingleProduct responseProduct1 = response.body();
                             Product_1 newProduct = responseProduct1.getData();
                             int statusCode = responseProduct1.getStatusCode();
                             String message = responseProduct1.getMessage();
@@ -145,7 +140,7 @@ public class ThemDoUongActivity extends AppCompatActivity {
                         }
 
                         @Override
-                        public void onFailure(Call<ResponseProduct_1> call, Throwable throwable) {
+                        public void onFailure(Call<ResponseSingleProduct> call, Throwable throwable) {
 
                         }
                     });

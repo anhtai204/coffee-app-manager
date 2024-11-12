@@ -63,9 +63,11 @@ public class CaPheFragment extends Fragment {
         viewPager_sanPham_loc_caphe = view.findViewById(R.id.viewPager_sanPham_loc_caphe);
 
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        CaPheAdapter caPheAdapter = new CaPheAdapter(fragmentManager, getLifecycle(), user);
-
+//        CaPheAdapter caPheAdapter = new CaPheAdapter(fragmentManager, getLifecycle(), user);
+//        CaPheAdapter caPheAdapter = new CaPheAdapter(getChildFragmentManager(), getLifecycle(), user);
+        CaPheAdapter caPheAdapter = new CaPheAdapter(getChildFragmentManager(), requireActivity().getLifecycle(), user);
         viewPager_sanPham_loc_caphe.setAdapter(caPheAdapter);
+
 
         tab_layout_ca_phe.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override

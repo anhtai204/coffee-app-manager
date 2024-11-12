@@ -13,7 +13,8 @@ import com.example.coffeeappmanage.model.ResponseDonHang;
 import com.example.coffeeappmanage.model.ResponseKhuyenMai;
 import com.example.coffeeappmanage.model.ResponseLatestIdDonHang;
 import com.example.coffeeappmanage.model.ResponseProduct;
-import com.example.coffeeappmanage.model.ResponseProduct_1;
+import com.example.coffeeappmanage.model.ResponseSingleProduct;
+import com.example.coffeeappmanage.model.ResponseSingleDonHang;
 import com.example.coffeeappmanage.model.ResponseSingleKhuyenMai;
 import com.example.coffeeappmanage.model.ResponseSingleTheLoai;
 import com.example.coffeeappmanage.model.ResponseSingleTopping;
@@ -48,8 +49,8 @@ public interface ApiService {
 //            .baseUrl("http://192.168.137.1:3000/")
 //            .baseUrl("http://192.168.86.1:3000/")
 //            .baseUrl("http://10.12.2.66:3000/")
-            .baseUrl("http://192.168.1.60:3000/")
-//            .baseUrl("http://10.15.173.130:3000/")
+//            .baseUrl("http://192.168.1.60:3000/")
+            .baseUrl("http://10.15.219.57:3000/")
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
             .create(ApiService.class);
@@ -80,17 +81,20 @@ public interface ApiService {
     Call<Void> deleteProduct(@Path("id_product") int id_product);
 
     @POST("product")
-    Call<ResponseProduct_1> createProduct(@Body Product_1 product1);
+    Call<ResponseSingleProduct> createProduct(@Body Product_1 product1);
 
     @PUT("product/update-product/{id_product}")
-    Call<ResponseProduct_1> updateProduct(@Path("id_product") int id_product,
-                                        @Body Product new_product);
+    Call<ResponseSingleProduct> updateProduct(@Path("id_product") int id_product,
+                                              @Body Product new_product);
+
+    @GET("product/{id_product}")
+    Call<ResponseSingleProduct> getProductById(@Path("id_product") int id_product);
 
 
 
 
     // ca phe
-    @GET("product/caphe")
+    @GET("product/caphe/single")
     Call<ResponseProduct> getAllCoffee();
 
     @GET("product/caphe/sortCost")
@@ -104,7 +108,7 @@ public interface ApiService {
     Call<ResponseProduct> getCoffeeFilterRate();
 
     // tra sua
-    @GET("product/trasua")
+    @GET("product/trasua/single")
     Call<ResponseProduct> getAllTraSua();
 
     @GET("product/trasua/sortCost")
@@ -119,7 +123,7 @@ public interface ApiService {
 
 
     // sinh to
-    @GET("product/sinhto")
+    @GET("product/sinhto/single")
     Call<ResponseProduct> getAllSinhTo();
 
     @GET("product/sinhto/sortCost")
@@ -134,7 +138,7 @@ public interface ApiService {
 
 
     // others product
-    @GET("product/others")
+    @GET("product/others/single")
     Call<ResponseProduct> getAllOthers();
 
     @GET("product/others/sortCost")
@@ -168,20 +172,17 @@ public interface ApiService {
 
     @FormUrlEncoded
     @POST("donhang")
-//    Call<Void> themVaoGioHang(@Field("id_user") int id_user,
-//                              @Field("id_product") int id_product,
-//                              @Field("soLuong") int soLuong,
-//                              @Field("tuyChinh") String tuyChinh,
-//                              @Field("status") String status,
-//                              @Field("giaDonHang") float giaDonHang,
-//                              @Field("ghiChu") String ghiChu);
-    Call<ResponseDonHang> themVaoGioHang(@Field("id_user") int id_user,
-                                         @Field("id_product") int id_product,
-                                         @Field("soLuong") int soLuong,
-                                         @Field("tuyChinh") String tuyChinh,
-                                         @Field("status") String status,
-                                         @Field("giaDonHang") float giaDonHang,
-                                         @Field("ghiChu") String ghiChu);
+    Call<ResponseSingleDonHang> themVaoGioHang(@Field("id_user") int id_user,
+                                               @Field("id_product") int id_product,
+                                               @Field("soLuong") int soLuong,
+                                               @Field("tuyChinh") String tuyChinh,
+                                               @Field("status") String status,
+                                               @Field("giaDonHang") float giaDonHang,
+                                               @Field("ghiChu") String ghiChu);
+
+
+    @GET("donhang")
+    Call<ResponseDonHang> getAllDonHang();
 
 
     @FormUrlEncoded
@@ -256,5 +257,7 @@ public interface ApiService {
     @PUT("khuyenmai/update-khuyen-mai/{id_khuyen_mai}")
     Call<ResponseSingleKhuyenMai> updateKhuyenMai(@Path("id_khuyen_mai") int id_khuyen_mai,
                                               @Body KhuyenMai update_khuyenMai);
+
+
 
 }

@@ -60,9 +60,9 @@ public class HomeUserFragment extends Fragment {
         viewPager_sanPham = view.findViewById(R.id.viewPager_sanPham);
 
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        HomeUserAdapter homeUserAdapter = new HomeUserAdapter(fragmentManager, getLifecycle(), user);
-
-
+//        HomeUserAdapter homeUserAdapter = new HomeUserAdapter(fragmentManager, getLifecycle(), user);
+//        HomeUserAdapter homeUserAdapter = new HomeUserAdapter(getChildFragmentManager(), getLifecycle(), user);
+        HomeUserAdapter homeUserAdapter = new HomeUserAdapter(getChildFragmentManager(), requireActivity().getLifecycle(), user);
         viewPager_sanPham.setAdapter(homeUserAdapter);
 
         tab_layout_san_pham.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
