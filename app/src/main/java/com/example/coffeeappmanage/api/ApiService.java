@@ -4,6 +4,7 @@ package com.example.coffeeappmanage.api;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 
+import com.example.coffeeappmanage.model.DonHang;
 import com.example.coffeeappmanage.model.KhuyenMai;
 import com.example.coffeeappmanage.model.Product;
 import com.example.coffeeappmanage.model.Product_1;
@@ -18,6 +19,7 @@ import com.example.coffeeappmanage.model.ResponseSingleDonHang;
 import com.example.coffeeappmanage.model.ResponseSingleKhuyenMai;
 import com.example.coffeeappmanage.model.ResponseSingleTheLoai;
 import com.example.coffeeappmanage.model.ResponseSingleTopping;
+import com.example.coffeeappmanage.model.ResponseSingleUser;
 import com.example.coffeeappmanage.model.ResponseTheLoai;
 import com.example.coffeeappmanage.model.ResponseTopping;
 import com.example.coffeeappmanage.model.ResponseUser;
@@ -49,8 +51,10 @@ public interface ApiService {
 //            .baseUrl("http://192.168.137.1:3000/")
 //            .baseUrl("http://192.168.86.1:3000/")
 //            .baseUrl("http://10.12.2.66:3000/")
-//            .baseUrl("http://192.168.1.60:3000/")
-            .baseUrl("http://10.15.219.57:3000/")
+            .baseUrl("http://192.168.1.60:3000/")
+//            .baseUrl("http://10.15.219.57:3000/")
+//            .baseUrl("http://10.12.2.65:3000/")
+
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
             .create(ApiService.class);
@@ -61,6 +65,9 @@ public interface ApiService {
 
     @GET("users")
     Call<ResponseUser> getAllUser();
+
+    @GET("users/{id_user}")
+    Call<ResponseSingleUser> getUserById(@Path("id_user") int id_user);
 
 
     @GET("users/check-email")
@@ -184,6 +191,9 @@ public interface ApiService {
     @GET("donhang")
     Call<ResponseDonHang> getAllDonHang();
 
+    @PUT("donhang/sua-don-hang/{id_donHang}")
+    Call<Void> updateDonHang(@Path("id_donHang") int id_donHang,
+                             @Body DonHang update_donHang);
 
     @FormUrlEncoded
     @POST("product-topping")
@@ -194,6 +204,9 @@ public interface ApiService {
     @GET("donhang/latest-id")
     Call<ResponseLatestIdDonHang> getLatestIdDonHang();
 
+
+    @GET("donhang/get-by-user/{id_user}")
+    Call<ResponseDonHang> getDonHangByUser(@Path("id_user") int id_user);
 
 //    @FormUrlEncoded
 //    @POST("product-topping")

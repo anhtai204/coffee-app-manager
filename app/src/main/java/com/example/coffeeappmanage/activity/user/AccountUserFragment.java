@@ -24,6 +24,7 @@ import android.widget.TextView;
 
 import com.example.coffeeappmanage.R;
 import com.example.coffeeappmanage.activity.ChangePasswordActivity;
+import com.example.coffeeappmanage.activity.LoginActivity;
 import com.example.coffeeappmanage.model.User;
 
 
@@ -88,7 +89,9 @@ public class AccountUserFragment extends Fragment {
                 builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        getActivity().finish();
+                        Intent intent = new Intent(getContext(), LoginActivity.class);
+                        startActivity(intent);
+//                        getActivity().finish();
                     }
                 });
                 builder.create().show();
@@ -111,7 +114,9 @@ public class AccountUserFragment extends Fragment {
                 builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        getActivity().finish();
+                        Intent intent = new Intent(getContext(), LoginActivity.class);
+                        startActivity(intent);
+//                        getActivity().finish();
                     }
                 });
                 builder.create().show();

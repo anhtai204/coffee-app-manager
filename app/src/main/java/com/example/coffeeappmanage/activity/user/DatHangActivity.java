@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResult;
@@ -58,6 +59,9 @@ public class DatHangActivity extends AppCompatActivity {
 
     LinearLayout viewPhuongThucThanhToan, viewDiaChiGiaoHang, viewKhuyenMai;
     float giaTopping;
+    PhuongThucThanhToan phuongThucThanhToan = null;
+    KhuyenMai khuyenMai = null;
+    DiaChi diaChi = null;
 
 
 
@@ -172,7 +176,7 @@ public class DatHangActivity extends AppCompatActivity {
                 public void onActivityResult(ActivityResult result) {
                     if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
                         Intent intent = result.getData();
-                        PhuongThucThanhToan phuongThucThanhToan = (PhuongThucThanhToan) intent.getSerializableExtra("phuongThucThanhToan");
+                        phuongThucThanhToan = (PhuongThucThanhToan) intent.getSerializableExtra("phuongThucThanhToan");
 
                         if (phuongThucThanhToan != null) {
                             tvPhuongThucThanhToan.setText(phuongThucThanhToan.getHinhThucThanhToan());
@@ -203,7 +207,7 @@ public class DatHangActivity extends AppCompatActivity {
                 public void onActivityResult(ActivityResult result) {
                     if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
                         Intent intent = result.getData();
-                        DiaChi diaChi = (DiaChi) intent.getSerializableExtra("diaChi");
+                        diaChi = (DiaChi) intent.getSerializableExtra("diaChi");
 
                         if (diaChi != null) {
                             tvDiaChiGiaoHang.setText(diaChi.getDia_chi());
@@ -234,7 +238,7 @@ public class DatHangActivity extends AppCompatActivity {
                 public void onActivityResult(ActivityResult result) {
                     if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
                         Intent intent = result.getData();
-                        KhuyenMai khuyenMai = (KhuyenMai) intent.getSerializableExtra("khuyenMai");
+                        khuyenMai = (KhuyenMai) intent.getSerializableExtra("khuyenMai");
 
                         if (khuyenMai != null) {
                             DecimalFormat df = new DecimalFormat("0.##");
@@ -274,7 +278,42 @@ public class DatHangActivity extends AppCompatActivity {
         tvDatDonHang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("dat don hang: ", donHang.toString());
+                if(phuongThucThanhToan==null){
+                    Toast.makeText(DatHangActivity.this, "Chọn phương thức thanh toán!", Toast.LENGTH_SHORT).show();
+                } else {
+                    if(diaChi==null){
+                        Toast.makeText(DatHangActivity.this, "Nhập địa chỉ giao hàng!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        donHang.setDiaChi(diaChi.getDia_chi());
+                        donHang.setStatus("dadat");
+                        donHang.setId_phuong_thuc_thanh_toan(phuongThucThanhToan.getId_phuongThucThanhToan());
+                        if(khuyenMai!=null){
+                            donHang.setId_khuyenMai(khuyenMai.getId_khuyen_mai());
+                        }
+                        Log.d("dat don hang: ", donHang.toString());
+
+                        ApiService.apiService.updateDonHang(donHang.getId_donHang(), donHang).enqueue(new Callback<Void>() {
+                            @Override
+                            public void onResponse(Call<Void> call, Response<Void> response) {
+                                Intent intentHome = new Intent(DatHangActivity.this, HomeUserActivity.class);
+//                                Intent intentHome = new Intent(DatHangActivity.this, OrderUserFragment.class);
+                                Bundle data = new Bundle();
+                                data.putSerializable("user", user);
+                                intentHome.putExtras(data);
+                                startActivity(intentHome);
+                            }
+
+                            @Override
+                            public void onFailure(Call<Void> call, Throwable throwable) {
+
+                            }
+                        });
+                    }
+
+                }
+
+
+
             }
         });
 
@@ -323,6 +362,7 @@ public class DatHangActivity extends AppCompatActivity {
         float gia_sp = product.getGiaSanPham() - product.getKhuyenmai_gia();
         giaCuoi = gia_sp*count + giaTopping*count;
         donHang.setGiaDonHang(giaCuoi);
+        donHang.setSoLuong(count);
 
         DecimalFormat decimalFormat = new DecimalFormat("#,###");
 

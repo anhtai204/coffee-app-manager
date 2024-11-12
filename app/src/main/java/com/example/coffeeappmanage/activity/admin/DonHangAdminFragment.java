@@ -3,64 +3,96 @@ package com.example.coffeeappmanage.activity.admin;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.coffeeappmanage.R;
+import com.example.coffeeappmanage.activity.RecyclerProduct.RCDonHangAdminAdapter;
+import com.example.coffeeappmanage.activity.RecyclerProduct.RCOrderUserAdapter;
+import com.example.coffeeappmanage.api.ApiService;
+import com.example.coffeeappmanage.model.DonHang;
+import com.example.coffeeappmanage.model.ResponseDonHang;
+import com.example.coffeeappmanage.model.User;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link DonHangAdminFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+
 public class DonHangAdminFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private RecyclerView rcDonHangAdmin;
+    List<DonHang> listDonHang;
+    RCDonHangAdminAdapter rcDonHangAdminAdapter;
+    private User user;
 
     public DonHangAdminFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment DonHangAdminFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static DonHangAdminFragment newInstance(String param1, String param2) {
-        DonHangAdminFragment fragment = new DonHangAdminFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_don_hang_admin, container, false);
+        View view = inflater.inflate(R.layout.fragment_don_hang_admin, container, false);
+
+        // Nhận đối tượng User từ Bundle
+        if (getArguments() != null) {
+            user = (User) getArguments().getSerializable("user");
+
+            if (user != null) {
+                Log.d("OrderUserFragment", "User: " + user.toString());
+            }
+        }
+
+        rcDonHangAdmin = view.findViewById(R.id.rcDonHangAdmin);
+        rcDonHangAdmin.setLayoutManager(new LinearLayoutManager(getContext()));
+        rcDonHangAdmin.setHasFixedSize(true);
+        listDonHang = new ArrayList<>();
+
+        rcDonHangAdminAdapter = new RCDonHangAdminAdapter(getContext(), listDonHang, user);
+        rcDonHangAdmin.setAdapter(rcDonHangAdminAdapter); // Thiết lập adapter ngay lập tức
+
+        loadData();
+
+        return view;
+    }
+
+    public void loadData() {
+
+        ApiService.apiService.getAllDonHang().enqueue(new Callback<ResponseDonHang>() {
+            @Override
+            public void onResponse(Call<ResponseDonHang> call, Response<ResponseDonHang> response) {
+                if (response.isSuccessful() && response.body()!=null){
+                    ResponseDonHang responseDonHang = response.body();
+                    List<DonHang> listDonHangApi = responseDonHang.getData();
+                    int statusCode = responseDonHang.getStatusCode();
+                    String message = responseDonHang.getMessage();
+
+                    rcDonHangAdminAdapter.setData(listDonHangApi);
+                    rcDonHangAdminAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseDonHang> call, Throwable throwable) {
+
+            }
+        });
+
+        Log.d("loadData", "Loading donhang data...");
     }
 }
