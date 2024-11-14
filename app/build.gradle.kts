@@ -50,4 +50,5 @@ dependencies {
     implementation ("com.sun.mail:android-mail:1.6.2")
     implementation ("de.hdodenhof:circleimageview:3.1.0")
     implementation ("com.google.android.material:material:1.11.0")
+    implementation("com.github.bumptech.glide:glide:4.16.0")
 }

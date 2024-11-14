@@ -1,9 +1,12 @@
 package com.example.coffeeappmanage.api;
 
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 
+import com.example.coffeeappmanage.R;
 import com.example.coffeeappmanage.model.DonHang;
 import com.example.coffeeappmanage.model.KhuyenMai;
 import com.example.coffeeappmanage.model.Product;
@@ -35,8 +38,10 @@ import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -47,14 +52,7 @@ public interface ApiService {
             .create();
 
     ApiService apiService = new Retrofit.Builder()
-//            .baseUrl("http://10.0.2.2:3000/")
-//            .baseUrl("http://192.168.137.1:3000/")
-//            .baseUrl("http://192.168.86.1:3000/")
-//            .baseUrl("http://10.12.2.66:3000/")
             .baseUrl("http://192.168.1.60:3000/")
-//            .baseUrl("http://10.15.219.57:3000/")
-//            .baseUrl("http://10.12.2.65:3000/")
-
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
             .create(ApiService.class);
@@ -96,8 +94,6 @@ public interface ApiService {
 
     @GET("product/{id_product}")
     Call<ResponseSingleProduct> getProductById(@Path("id_product") int id_product);
-
-
 
 
     // ca phe
@@ -272,5 +268,11 @@ public interface ApiService {
                                               @Body KhuyenMai update_khuyenMai);
 
 
+
+    // uploads
+    @Multipart
+    @POST("product/upload")
+    Call<Void> uploadImage(@Part("id_product") RequestBody id_product,
+                           @Part MultipartBody.Part file);
 
 }

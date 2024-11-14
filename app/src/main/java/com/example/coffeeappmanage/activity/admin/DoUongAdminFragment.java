@@ -154,12 +154,14 @@ public class DoUongAdminFragment extends Fragment {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 // Xử lý khi người dùng nhấn submit tìm kiếm
+                rcDoUongAdapter.getFilter().filter(query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
                 // Xử lý khi nội dung tìm kiếm thay đổi
+                rcDoUongAdapter.getFilter().filter(newText);
                 return false;
             }
         });

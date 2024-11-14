@@ -33,11 +33,12 @@
                 android:layout_marginRight="8dp"
                 app:cardCornerRadius="150dp">
 
-                <ImageView
+                <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/imgProductGioHang"
                     android:layout_width="50dp"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/caphe2" />
+                    android:layout_height="50dp"
+                    android:padding="8dp"
+                    android:src="@drawable/imagecoffee"/>
 
 
             </androidx.cardview.widget.CardView>

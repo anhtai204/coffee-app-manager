@@ -23,6 +23,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.bumptech.glide.Glide;
 import com.example.coffeeappmanage.R;
 import com.example.coffeeappmanage.activity.admin.ThemTheLoaiActivity;
 import com.example.coffeeappmanage.api.ApiService;
@@ -139,7 +140,6 @@ public class DatHangActivity extends AppCompatActivity {
         Log.d("id_product: ", donHang.getId_product()+"");
         int id_product  = donHang.getId_product();
 
-
         ApiService.apiService.getProductById(id_product).enqueue(new Callback<ResponseSingleProduct>() {
             @Override
             public void onResponse(Call<ResponseSingleProduct> call, Response<ResponseSingleProduct> response) {
@@ -157,6 +157,11 @@ public class DatHangActivity extends AppCompatActivity {
 
                     tvDatHangGiaSP.setText(formatted_giasp+"vnd");
                     tvDatHangTenSP.setText(product.getTenSanPham());
+
+                    Glide.with(DatHangActivity.this)
+                            .load(getString(R.string.local_host) + product.getLogo_product())
+                            .fitCenter()
+                            .into(imgProductDatHang);
 
                 }
             }

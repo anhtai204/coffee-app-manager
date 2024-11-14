@@ -1,5 +1,6 @@
 package com.example.coffeeappmanage.activity.user;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.coffeeappmanage.R;
 import com.example.coffeeappmanage.activity.RecyclerProduct.RCToppingAdapter;
 import com.example.coffeeappmanage.api.ApiService;
@@ -47,7 +49,7 @@ public class OrderProductActivity extends AppCompatActivity {
 
     Toolbar toolbar;
     TextView tvCount, tvTenSanPham, tvRate, tvCountRate, tvGiaSanPham, tvGiaCuoi, tvThemGioHang, tvDanhGia;
-    ImageView imgMinus, imgPlus, imgDanhGia;
+    ImageView imgMinus, imgPlus, imgDanhGia, imgOrderProduct;
     EditText edtGhiChu;
     int count = 1;
     int giaCuoi;
@@ -88,6 +90,9 @@ public class OrderProductActivity extends AppCompatActivity {
         imgMinus = findViewById(R.id.imgMinus);
         imgPlus = findViewById(R.id.imgPlus);
         tvGiaCuoi = findViewById(R.id.tvGiaCuoi);
+        imgOrderProduct = findViewById(R.id.imgOrderProduct);
+
+
 
         giaCuoi = extractNumber(tvGiaSanPham.getText().toString());
         Log.d("giasanpham: ", tvGiaSanPham.getText().toString());
@@ -99,6 +104,12 @@ public class OrderProductActivity extends AppCompatActivity {
 
             Log.d("user_order", user.toString());
             Log.d("OrderProductActivity product: ", product.toString());
+
+            Glide.with(this)
+                    .load(getString(R.string.local_host) + product.getLogo_product())
+                    .fitCenter()  // Hoặc sử dụng .centerInside() nếu bạn muốn ảnh nhỏ hơn vừa khít với ImageView
+                    .into(imgOrderProduct);
+
 
             float gia_sp = product.getGiaSanPham() - product.getKhuyenmai_gia();
             DecimalFormat decimalFormat = new DecimalFormat("#,###");

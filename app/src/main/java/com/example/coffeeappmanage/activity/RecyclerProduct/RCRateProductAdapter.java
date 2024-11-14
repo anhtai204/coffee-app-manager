@@ -8,12 +8,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.coffeeappmanage.R;
 import com.example.coffeeappmanage.activity.user.OrderProductActivity;
 import com.example.coffeeappmanage.model.Product;
@@ -80,6 +82,13 @@ public class RCRateProductAdapter extends RecyclerView.Adapter<RCRateProductAdap
             holder.rc_khuyen_mai_rate.setText(formatted_gia_goc);
             holder.rc_khuyen_mai_rate.setPaintFlags(holder.rc_khuyen_mai_rate.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         }
+
+        Glide.with(context)
+                .load(context.getString(R.string.local_host) + product.getLogo_product())
+                .fitCenter()  // Hoặc sử dụng .centerInside() nếu bạn muốn ảnh nhỏ hơn vừa khít với ImageView
+                .into(holder.rc_image);
+
+        Log.d("abcas: ", R.string.local_host + product.getLogo_product());
     }
 
     @Override
@@ -93,6 +102,7 @@ public class RCRateProductAdapter extends RecyclerView.Adapter<RCRateProductAdap
     public class RateProductViewHolder extends RecyclerView.ViewHolder{
 
         private TextView rc_khuyen_mai_rate, rc_gia_rate, rc_ten_sp_rate, rc_gioi_thieu_rate, rc_star_rate;
+        ImageView rc_image;
         public RateProductViewHolder(@NonNull View itemView) {
 
             super(itemView);
@@ -102,6 +112,8 @@ public class RCRateProductAdapter extends RecyclerView.Adapter<RCRateProductAdap
             rc_ten_sp_rate = itemView.findViewById(R.id.rc_ten_sp_rate);
             rc_gioi_thieu_rate = itemView.findViewById(R.id.rc_gioi_thieu_rate);
             rc_star_rate = itemView.findViewById(R.id.rc_star_rate);
+            rc_image = itemView.findViewById(R.id.rc_image);
+
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

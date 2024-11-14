@@ -36,26 +36,21 @@
                 android:background="@drawable/custom_edittext"
                 android:orientation="horizontal">
                 <LinearLayout
-                    android:layout_width="60dp"
+                    android:layout_width="70dp"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:layout_marginLeft="6dp"
+                    android:layout_marginLeft="2dp"
                     android:layout_marginRight="2dp">
 
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_gravity="center"
-                        app:cardCornerRadius="150dp">
-
-                        <ImageView
-                            android:id="@+id/imgProductDatHang"
-                            android:layout_width="50dp"
-                            android:layout_height="match_parent"
-                            android:src="@drawable/caphe2" />
-
-
-                    </androidx.cardview.widget.CardView>
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/imgProductDatHang"
+                        android:layout_width="62dp"
+                        android:layout_height="60dp"
+                        android:layout_marginStart="8dp"
+                        android:background="@drawable/circle_border"
+                        android:padding="8dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/imagecoffee" />
 
                 </LinearLayout>
 

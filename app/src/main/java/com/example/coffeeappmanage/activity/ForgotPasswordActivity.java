@@ -26,6 +26,7 @@ import com.example.coffeeappmanage.model.User;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
+import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -40,6 +41,7 @@ import javax.mail.internet.MimeMessage;
 
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
 
@@ -129,8 +131,22 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                         for(User user : listUser){
                             if(user.getEmail().equals(email)){
                                 check =true;
-                                Toast.makeText(ForgotPasswordActivity.this, "Success", Toast.LENGTH_SHORT).show();
-                                sendEmailInBackground("anhtainguyen.tan@gmail.com", "1234");
+                                Toast.makeText(ForgotPasswordActivity.this, "Your new password has already send your email!", Toast.LENGTH_SHORT).show();
+                                String new_password = generateRandomString();
+                                sendEmailInBackground("anhtainguyen.tan@gmail.com", "Your new password : " + new_password);
+                                Log.d("user: ", user.toString());
+                                ApiService.apiService.changePassword(user.getId_user(), new_password).enqueue(new Callback<Void>() {
+                                    @Override
+                                    public void onResponse(Call<Void> call, Response<Void> response) {
+                                        Intent intentHome = new Intent(ForgotPasswordActivity.this, LoginActivity.class);
+                                        startActivity(intentHome);
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<Void> call, Throwable throwable) {
+
+                                    }
+                                });
                             }
                         }
                         if(check == false){
@@ -175,7 +191,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                 msg.addHeader("Content-type", "text/HTML; charset=UTF-8");
                 msg.setFrom(from);
                 msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to, false));
-                msg.setSubject("Thử nghiệm gửi email");
+                msg.setSubject("Cấp lại mật khẩu");
                 msg.setSentDate(new Date());
                 msg.setContent(noiDung, "text/html");
 
@@ -184,6 +200,20 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                 Log.e("error", e.toString());
             }
         });
+    }
+
+    private static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    private static final int LENGTH = 8;
+    public static String generateRandomString() {
+        Random random = new Random();
+        StringBuilder sb = new StringBuilder(LENGTH);
+
+        for (int i = 0; i < LENGTH; i++) {
+            int randomIndex = random.nextInt(CHARACTERS.length());
+            sb.append(CHARACTERS.charAt(randomIndex));
+        }
+
+        return sb.toString();
     }
 
 }

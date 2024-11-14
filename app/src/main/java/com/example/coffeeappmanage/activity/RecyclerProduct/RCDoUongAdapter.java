@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.coffeeappmanage.R;
 import com.example.coffeeappmanage.activity.admin.ChinhSuaDoUongActivity;
 import com.example.coffeeappmanage.activity.admin.ChinhSuaTheLoaiActivity;
@@ -26,13 +29,14 @@ import com.example.coffeeappmanage.model.TheLoai;
 import com.example.coffeeappmanage.model.User;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class RCDoUongAdapter extends RecyclerView.Adapter<RCDoUongAdapter.DoUongViewHolder>{
+public class RCDoUongAdapter extends RecyclerView.Adapter<RCDoUongAdapter.DoUongViewHolder> implements Filterable {
 
     private Context context;
     private List<Product> listProduct;
@@ -40,11 +44,16 @@ public class RCDoUongAdapter extends RecyclerView.Adapter<RCDoUongAdapter.DoUong
 
     private ActivityResultLauncher<Intent> activityResultLauncher;
 
+    private List<Product> listProductOld;
+
     public RCDoUongAdapter(Context context, List<Product> listProduct, User user, ActivityResultLauncher<Intent> activityResultLauncher) {
         this.context = context;
         this.listProduct = listProduct;
         this.user = user;
         this.activityResultLauncher = activityResultLauncher;
+
+        this.listProductOld = new ArrayList<>(listProduct);
+
     }
 
 //    public RCDoUongAdapter(Context context, List<Product> listProduct, User user) {
@@ -55,6 +64,7 @@ public class RCDoUongAdapter extends RecyclerView.Adapter<RCDoUongAdapter.DoUong
 
     public void setData(List<Product> list){
         this.listProduct = list;
+        this.listProductOld = new ArrayList<>(list);
         notifyDataSetChanged();
     }
 
@@ -110,6 +120,7 @@ public class RCDoUongAdapter extends RecyclerView.Adapter<RCDoUongAdapter.DoUong
                             @Override
                             public void onResponse(Call<Void> call, Response<Void> response) {
                                 listProduct.remove(product);
+                                listProductOld.remove(product);
                                 notifyDataSetChanged();
                                 Toast.makeText(context, "Xóa sản phẩm thành công!", Toast.LENGTH_SHORT).show();
                             }
@@ -137,6 +148,11 @@ public class RCDoUongAdapter extends RecyclerView.Adapter<RCDoUongAdapter.DoUong
                 activityResultLauncher.launch(intentSuaDoUong);
             }
         });
+
+        Glide.with(context)
+                .load(context.getString(R.string.local_host) + product.getLogo_product())
+                .fitCenter()  // Hoặc sử dụng .centerInside() nếu bạn muốn ảnh nhỏ hơn vừa khít với ImageView
+                .into(holder.imgProductGioHang);
     }
 
     @Override
@@ -147,10 +163,11 @@ public class RCDoUongAdapter extends RecyclerView.Adapter<RCDoUongAdapter.DoUong
         return 0;
     }
 
+
     public class DoUongViewHolder extends RecyclerView.ViewHolder{
 
         TextView tvTenDoUong, tvGiaSauGiam, tvGiaGoc, tvTheLoai;
-        ImageView imgSuaDoUong, imgXoaDoUong;
+        ImageView imgSuaDoUong, imgXoaDoUong, imgProductGioHang;
 
         public DoUongViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -161,7 +178,41 @@ public class RCDoUongAdapter extends RecyclerView.Adapter<RCDoUongAdapter.DoUong
             tvTheLoai = itemView.findViewById(R.id.tvTheLoai);
             imgSuaDoUong = itemView.findViewById(R.id.imgSuaDoUong);
             imgXoaDoUong = itemView.findViewById(R.id.imgXoaDoUong);
+            imgProductGioHang = itemView.findViewById(R.id.imgProductGioHang);
 
         }
+    }
+
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String strSearch = charSequence.toString();
+                if(strSearch.isEmpty()){
+                    listProduct = listProductOld;
+                } else {
+                    List<Product> listFilter = new ArrayList<>();
+                    for(Product product : listProductOld){
+                        if(product.getTenSanPham().toLowerCase().contains(strSearch.toLowerCase())){
+                            listFilter.add(product);
+                        }
+                    }
+                    listProduct = listFilter;
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = listProduct;
+
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                listProduct = (List<Product>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
     }
 }

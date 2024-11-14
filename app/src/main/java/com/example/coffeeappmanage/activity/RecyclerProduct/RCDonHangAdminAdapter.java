@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.coffeeappmanage.R;
 import com.example.coffeeappmanage.api.ApiService;
 import com.example.coffeeappmanage.model.DonHang;
@@ -67,6 +68,11 @@ public class RCDonHangAdminAdapter extends RecyclerView.Adapter<RCDonHangAdminAd
                     Product_1 product = singleProduct.getData();
                     int statusCode = singleProduct.getStatusCode();
                     String message = singleProduct.getMessage();
+
+                    Glide.with(context)
+                            .load(context.getString(R.string.local_host) + product.getLogo_product())
+                            .fitCenter()  // Hoặc sử dụng .centerInside() nếu bạn muốn ảnh nhỏ hơn vừa khít với ImageView
+                            .into(holder.imgDonHang);
 
                     ApiService.apiService.getUserById(donHang.getId_user()).enqueue(new Callback<ResponseSingleUser>() {
                         @Override

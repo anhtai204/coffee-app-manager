@@ -141,13 +141,15 @@ public class SignUpActivity extends AppCompatActivity {
                             public void onResponse(Call<User> call, Response<User> response) {
                                 if(response.isSuccessful()){
                                     Toast.makeText(SignUpActivity.this, "Tạo tài khoản thành công!", Toast.LENGTH_SHORT).show();
-                                    if(radUser.isChecked()){
-                                        Intent intent1 = new Intent(SignUpActivity.this, HomeUserActivity.class);
-                                        startActivity(intent1);
-                                    } else if(radAdmin.isChecked()){
-                                        Intent intent2 = new Intent(SignUpActivity.this, HomeAdminActivity.class);
-                                        startActivity(intent2);
-                                    }
+//                                    if(radUser.isChecked()){
+//                                        Intent intent1 = new Intent(SignUpActivity.this, HomeUserActivity.class);
+//                                        startActivity(intent1);
+//                                    } else if(radAdmin.isChecked()){
+//                                        Intent intent2 = new Intent(SignUpActivity.this, HomeAdminActivity.class);
+//                                        startActivity(intent2);
+//                                    }
+                                    Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
+                                    startActivity(intent);
                                 }
                             }
 

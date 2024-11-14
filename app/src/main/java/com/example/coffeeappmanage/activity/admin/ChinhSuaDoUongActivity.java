@@ -1,20 +1,32 @@
 package com.example.coffeeappmanage.activity.admin;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.ImageDecoder;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -22,7 +34,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.bumptech.glide.Glide;
 import com.example.coffeeappmanage.R;
+import com.example.coffeeappmanage.activity.plugins.RealPathUtil;
 import com.example.coffeeappmanage.api.ApiService;
 import com.example.coffeeappmanage.model.Product;
 import com.example.coffeeappmanage.model.ResponseSingleProduct;
@@ -30,8 +44,14 @@ import com.example.coffeeappmanage.model.ResponseTheLoai;
 import com.example.coffeeappmanage.model.TheLoai;
 import com.example.coffeeappmanage.model.User;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -46,6 +66,47 @@ public class ChinhSuaDoUongActivity extends AppCompatActivity {
     TextView btnCapNhatDoUong;
     Spinner spn_chinh_sua_do_uong;
     TheLoai theLoai;
+
+
+    TextView btn_select_picture;
+    public static final String TAG = ChinhSuaDoUongActivity.class.getName();
+    private static final int MY_REQUEST_CODE = 10;
+    private Uri mUri;
+    ImageView img_from_api;
+
+    ActivityResultLauncher<Intent> mActivityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    Log.e(TAG, "onActivityResult");
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        Intent data = result.getData();
+                        if (data == null) {
+                            return;
+                        }
+                        Uri uri = data.getData();
+                        mUri = uri;
+                        try {
+                            // Sử dụng ImageDecoder trên Android 29+ (API 29 trở lên)
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                                ImageDecoder.Source source = ImageDecoder.createSource(getContentResolver(), uri);
+                                Bitmap bitmap = ImageDecoder.decodeBitmap(source);
+                                img_from_api.setImageBitmap(bitmap);
+                            } else {
+                                // Sử dụng phương pháp cũ cho các phiên bản thấp hơn
+                                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                                img_from_api.setImageBitmap(bitmap);
+                            }
+                        } catch (FileNotFoundException e) {
+                            throw new RuntimeException(e);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                }
+            }
+    );
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +124,14 @@ public class ChinhSuaDoUongActivity extends AppCompatActivity {
             product = (Product) getIntent().getExtras().get("product");
         }
 
+        img_from_api = findViewById(R.id.img_from_api);
+        Glide.with(this)
+                .load(getString(R.string.local_host) + product.getLogo_product())
+                .fitCenter()  // Hoặc sử dụng .centerInside() nếu bạn muốn ảnh nhỏ hơn vừa khít với ImageView
+                .into(img_from_api);
+
+        mUri = Uri.parse(getString(R.string.local_host) + product.getLogo_product());
+
         Log.d("product: ", product.toString());
         Log.d("user: ", user.toString());
 
@@ -73,7 +142,7 @@ public class ChinhSuaDoUongActivity extends AppCompatActivity {
         edtChinhSuaMoTa = findViewById(R.id.edtChinhSuaMoTa);
         edtChinhSuaGia = findViewById(R.id.edtChinhSuaGia);
         edtChinhSuaKhuyenMai = findViewById(R.id.edtChinhSuaKhuyenMai);
-        edtChinhSuaHinhAnh = findViewById(R.id.edtChinhSuaHinhAnh);
+//        edtChinhSuaHinhAnh = findViewById(R.id.edtChinhSuaHinhAnh);
         btnCapNhatDoUong = findViewById(R.id.btnCapNhatDoUong);
         spn_chinh_sua_do_uong = findViewById(R.id.spn_chinh_sua_do_uong);
 
@@ -81,9 +150,19 @@ public class ChinhSuaDoUongActivity extends AppCompatActivity {
         edtChinhSuaMoTa.setText(product.getMo_ta());
         edtChinhSuaGia.setText(product.getGiaSanPham()+"");
         edtChinhSuaKhuyenMai.setText(product.getKhuyenmai_gia()+"");
-        edtChinhSuaHinhAnh.setText(product.getLogo_product());
+//        edtChinhSuaHinhAnh.setText(product.getLogo_product());
+
 
         loadData();
+
+        btn_select_picture = findViewById(R.id.btn_select_picture);
+        btn_select_picture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickRequestPermission();
+            }
+        });
+
         spn_chinh_sua_do_uong.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -106,9 +185,9 @@ public class ChinhSuaDoUongActivity extends AppCompatActivity {
                 String moTa = edtChinhSuaMoTa.getText().toString().trim();
                 float gia = Float.parseFloat(edtChinhSuaGia.getText().toString().trim());
                 float khuyenmai_gia = Float.parseFloat(edtChinhSuaKhuyenMai.getText().toString().trim());
-                String logo_path = edtChinhSuaHinhAnh.getText().toString().trim();
+//                String logo_path = edtChinhSuaHinhAnh.getText().toString().trim();
 
-                Product new_product = new Product(id_product, tenSanPham, gia, khuyenmai_gia, theLoai, product.getKhuyenMai(), null, 0, moTa, logo_path);
+                Product new_product = new Product(id_product, tenSanPham, gia, khuyenmai_gia, theLoai, product.getKhuyenMai(), null, 0, moTa, null);
 
                 Log.d("new product: ", new_product.toString());
 
@@ -128,11 +207,41 @@ public class ChinhSuaDoUongActivity extends AppCompatActivity {
                             @Override
                             public void onResponse(Call<ResponseSingleProduct> call, Response<ResponseSingleProduct> response) {
                                 if (response.isSuccessful()) {
-                                    Intent resultIntent = new Intent();
-                                    resultIntent.putExtra("updatedProduct", new_product);
-                                    setResult(Activity.RESULT_OK, resultIntent);
-                                    finish(); // Đóng activity và quay lại fragment
-                                    Toast.makeText(ChinhSuaDoUongActivity.this, "Update product successed!", Toast.LENGTH_SHORT).show();
+                                    // Lấy đường dẫn thực từ URI
+                                    String strRealPath = RealPathUtil.getRealPath(ChinhSuaDoUongActivity.this, mUri);
+                                    File file = new File(strRealPath);
+
+                                    // Tạo RequestBody từ file
+                                    RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+
+                                    // Tạo MultipartBody.Part từ file để gửi đến server
+                                    MultipartBody.Part avt = MultipartBody.Part.createFormData("file", file.getName(), requestBody);
+
+                                    // Tạo RequestBody cho id_product
+                                    RequestBody idProductRequestBody = RequestBody.create(MediaType.parse("multipart/form-data"), String.valueOf(id_product));
+
+                                    ApiService.apiService.uploadImage(idProductRequestBody, avt).enqueue(new Callback<Void>() {
+                                        @Override
+                                        public void onResponse(Call<Void> call, Response<Void> response) {
+                                            Intent resultIntent = new Intent();
+                                            resultIntent.putExtra("updatedProduct", new_product);
+                                            setResult(Activity.RESULT_OK, resultIntent);
+                                            finish(); // Đóng activity và quay lại fragment
+                                            Toast.makeText(ChinhSuaDoUongActivity.this, "Update product successed!", Toast.LENGTH_SHORT).show();
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call<Void> call, Throwable throwable) {
+
+                                        }
+                                    });
+
+
+//                                    Intent resultIntent = new Intent();
+//                                    resultIntent.putExtra("updatedProduct", new_product);
+//                                    setResult(Activity.RESULT_OK, resultIntent);
+//                                    finish(); // Đóng activity và quay lại fragment
+//                                    Toast.makeText(ChinhSuaDoUongActivity.this, "Update product successed!", Toast.LENGTH_SHORT).show();
                                 }
                             }
 
@@ -205,5 +314,36 @@ public class ChinhSuaDoUongActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void onClickRequestPermission(){
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            openGallery();
+            return;
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            // Với Android 13 trở lên, yêu cầu quyền READ_MEDIA_IMAGES thay vì READ_EXTERNAL_STORAGE
+            if (checkSelfPermission(Manifest.permission.READ_MEDIA_IMAGES) == PackageManager.PERMISSION_GRANTED) {
+                openGallery();
+            } else {
+                String[] permissions = {Manifest.permission.READ_MEDIA_IMAGES};
+                requestPermissions(permissions, MY_REQUEST_CODE);
+            }
+        } else {
+            // Với các phiên bản thấp hơn, sử dụng READ_EXTERNAL_STORAGE
+            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                openGallery();
+            } else {
+                String[] permissions = {Manifest.permission.READ_EXTERNAL_STORAGE};
+                requestPermissions(permissions, MY_REQUEST_CODE);
+            }
+        }
+    }
+
+    private void openGallery() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        mActivityResultLauncher.launch(Intent.createChooser(intent, "Select picture"));
     }
 }

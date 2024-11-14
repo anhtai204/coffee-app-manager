@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.coffeeappmanage.R;
 import com.example.coffeeappmanage.api.ApiService;
 import com.example.coffeeappmanage.model.DonHang;
@@ -82,6 +83,11 @@ public class RCOrderUserAdapter extends RecyclerView.Adapter<RCOrderUserAdapter.
                     } else if(donHang.getStatus().equals("daduyet")) {
                         holder.tvOrderStatus.setText("Đang giao");
                     }
+
+                    Glide.with(context)
+                            .load(context.getString(R.string.local_host) + product.getLogo_product())
+                            .fitCenter()  // Hoặc sử dụng .centerInside() nếu bạn muốn ảnh nhỏ hơn vừa khít với ImageView
+                            .into(holder.imgOrder);
                 }
             }
 

@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,6 +29,7 @@ import com.example.coffeeappmanage.model.ResponseBoolean;
 import com.example.coffeeappmanage.model.TheLoai;
 import com.example.coffeeappmanage.model.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -34,11 +37,13 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class RCTheLoaiAdapter extends RecyclerView.Adapter<RCTheLoaiAdapter.TheLoaiViewHolder>{
+public class RCTheLoaiAdapter extends RecyclerView.Adapter<RCTheLoaiAdapter.TheLoaiViewHolder> implements Filterable {
 
     private Context context;
     private List<TheLoai> listTheLoai;
     private User user;
+
+    private List<TheLoai> listTheLoaiOld;
 
     private ActivityResultLauncher<Intent> activityResultLauncher;
 
@@ -47,6 +52,9 @@ public class RCTheLoaiAdapter extends RecyclerView.Adapter<RCTheLoaiAdapter.TheL
         this.listTheLoai = listTheLoai;
         this.user = user;
         this.activityResultLauncher = activityResultLauncher;
+
+//        this.listTheLoaiOld = listTheLoai;
+        this.listTheLoaiOld = new ArrayList<>(listTheLoai);
     }
 
 
@@ -58,6 +66,7 @@ public class RCTheLoaiAdapter extends RecyclerView.Adapter<RCTheLoaiAdapter.TheL
 
     public void setData(List<TheLoai> list){
         this.listTheLoai = list;
+        this.listTheLoaiOld = new ArrayList<>(list);
         notifyDataSetChanged();
     }
 
@@ -103,19 +112,6 @@ public class RCTheLoaiAdapter extends RecyclerView.Adapter<RCTheLoaiAdapter.TheL
                     builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-//                            ApiService.apiService.xoaTheLoai(theLoai.getId_theLoai()).enqueue(new Callback<Void>() {
-//                                @Override
-//                                public void onResponse(Call<Void> call, Response<Void> response) {
-//                                    listTheLoai.remove(theLoai);
-//                                    notifyDataSetChanged(); // Cập nhật toàn bộ danh sách
-//                                    Toast.makeText(context, "Xóa thể loại thành công!", Toast.LENGTH_SHORT).show();
-//                                }
-//
-//                                @Override
-//                                public void onFailure(Call<Void> call, Throwable throwable) {
-//                                    Toast.makeText(context, "Xóa thể loại thất bại!", Toast.LENGTH_SHORT).show();
-//                                }
-//                            });
                             ApiService.apiService.xoaTheLoai(theLoai.getId_theLoai()).enqueue(new Callback<ResponseBoolean>() {
                                 @Override
                                 public void onResponse(Call<ResponseBoolean> call, Response<ResponseBoolean> response) {
@@ -126,6 +122,7 @@ public class RCTheLoaiAdapter extends RecyclerView.Adapter<RCTheLoaiAdapter.TheL
                                             Toast.makeText(context, "Sản phẩm loại này có tồn tại!", Toast.LENGTH_SHORT).show();
                                         } else {
                                             listTheLoai.remove(theLoai);
+                                            listTheLoaiOld.remove(theLoai);
                                             notifyDataSetChanged(); // Cập nhật toàn bộ danh sách
                                             Toast.makeText(context, "Xóa thể loại thành công!", Toast.LENGTH_SHORT).show();
                                         }
@@ -194,5 +191,37 @@ public class RCTheLoaiAdapter extends RecyclerView.Adapter<RCTheLoaiAdapter.TheL
             imgXoaTheLoai = itemView.findViewById(R.id.imgXoaTheLoai);
 
         }
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String strSearch = charSequence.toString();
+                if(strSearch.isEmpty()){
+                    listTheLoai = listTheLoaiOld;
+                } else {
+                    List<TheLoai> listFilter = new ArrayList<>();
+                    for(TheLoai theLoai : listTheLoaiOld){
+                        if(theLoai.getTen_the_loai().toLowerCase().contains(strSearch.toLowerCase())){
+                            listFilter.add(theLoai);
+                        }
+                    }
+                    listTheLoai = listFilter;
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = listTheLoai;
+
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                listTheLoai = (List<TheLoai>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
     }
 }

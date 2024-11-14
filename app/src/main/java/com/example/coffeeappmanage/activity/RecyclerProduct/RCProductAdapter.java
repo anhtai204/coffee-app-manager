@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.coffeeappmanage.R;
 import com.example.coffeeappmanage.activity.user.OrderProductActivity;
 import com.example.coffeeappmanage.model.Product;
@@ -74,6 +75,12 @@ public class RCProductAdapter extends RecyclerView.Adapter<RCProductAdapter.Prod
             holder.rc_khuyen_mai.setPaintFlags(holder.rc_khuyen_mai.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         }
 
+        Glide.with(context)
+                .load(context.getString(R.string.local_host) + product.getLogo_product())
+                .fitCenter()  // Hoặc sử dụng .centerInside() nếu bạn muốn ảnh nhỏ hơn vừa khít với ImageView
+                .into(holder.rc_image);
+
+
     }
 
     @Override
@@ -87,6 +94,7 @@ public class RCProductAdapter extends RecyclerView.Adapter<RCProductAdapter.Prod
     public class ProductViewHolder extends RecyclerView.ViewHolder{
 
         private TextView rc_ten_sp, rc_gioi_thieu, rc_gia, rc_khuyen_mai, rc_star;
+        ImageView rc_image;
         public ProductViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -95,6 +103,8 @@ public class RCProductAdapter extends RecyclerView.Adapter<RCProductAdapter.Prod
             rc_gia = itemView.findViewById(R.id.rc_gia);
             rc_khuyen_mai = itemView.findViewById(R.id.rc_khuyen_mai);
             rc_star = itemView.findViewById(R.id.rc_star);
+            rc_image = itemView.findViewById(R.id.rc_image);
+
 
 //            itemView.setOnClickListener(new View.OnClickListener() {
 //                @Override

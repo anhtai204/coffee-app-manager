@@ -33,7 +33,7 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/imageView2"
+                android:id="@+id/imgOrderProduct"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
                 android:src="@drawable/caphe2"
@@ -202,7 +202,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.494"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView2">
+                app:layout_constraintTop_toBottomOf="@+id/imgOrderProduct">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="320dp"

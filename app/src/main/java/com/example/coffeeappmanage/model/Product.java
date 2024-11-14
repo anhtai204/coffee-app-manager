@@ -19,18 +19,6 @@ public class Product implements Serializable {
     public Product() {
     }
 
-//    public Product(int id_product, String tenSanPham, float giaSanPham, float khuyenmai_gia, TheLoai theLoai, KhuyenMai khuyenMai, Topping topping, float average_star) {
-//        this.id_product = id_product;
-//        this.tenSanPham = tenSanPham;
-//        this.giaSanPham = giaSanPham;
-//        this.khuyenmai_gia = khuyenmai_gia;
-//        this.theLoai = theLoai;
-//        this.khuyenMai = khuyenMai;
-//        this.topping = topping;
-//        this.average_star = average_star;
-//    }
-
-
     public Product(int id_product, String tenSanPham, float giaSanPham, float khuyenmai_gia, TheLoai theLoai, KhuyenMai khuyenMai, Topping topping, float average_star, String mo_ta, String logo_product) {
         this.id_product = id_product;
         this.tenSanPham = tenSanPham;
@@ -135,6 +123,8 @@ public class Product implements Serializable {
                 ", khuyenMai=" + khuyenMai +
                 ", topping=" + topping +
                 ", average_star=" + average_star +
+                ", mo_ta='" + mo_ta + '\'' +
+                ", logo_product='" + logo_product + '\'' +
                 '}';
     }
 }

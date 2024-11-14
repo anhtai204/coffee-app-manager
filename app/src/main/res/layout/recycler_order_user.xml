@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center"
     android:orientation="vertical"
-    android:layout_height="110dp">
+    android:layout_height="120dp">
 
     <LinearLayout
         android:layout_marginLeft="10dp"
@@ -19,20 +19,17 @@
             android:gravity="center"
             android:layout_marginLeft="6dp">
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                app:cardCornerRadius="150dp">
-
-                <ImageView
-                    android:id="@+id/imgOrder"
-                    android:layout_width="50dp"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/caphe2" />
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/imgOrder"
+                android:layout_width="64dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/circle_border"
+                android:padding="8dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/imagecoffee"/>
 
 
-            </androidx.cardview.widget.CardView>
 
         </LinearLayout>
 
@@ -109,6 +106,8 @@
     </LinearLayout>
 
     <TextView
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/custom_break_line"/>
