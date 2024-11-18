@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".activity.admin.DonHangAdminFragment"
     android:orientation="vertical"
-    android:background="@color/white">
+    android:background="@drawable/v1">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcDonHangAdmin"

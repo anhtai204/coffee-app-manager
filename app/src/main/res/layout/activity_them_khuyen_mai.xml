@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent"
+    android:background="@drawable/v1"
     tools:context=".activity.admin.ThemKhuyenMaiActivity">
 
     <androidx.appcompat.widget.Toolbar
@@ -28,12 +29,24 @@
             android:layout_marginTop="20dp"
             android:text="Giảm giá (%)"/>
 
-        <EditText
-            android:id="@+id/edtPhanTramKhuyenMai"
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@drawable/custom_edittext"
-            android:layout_marginBottom="20dp"/>
+            android:layout_marginBottom="20dp">
+
+            <EditText
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:id="@+id/edtPhanTramKhuyenMai"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/custom_no_border"
+                android:layout_marginBottom="20dp"/>
+
+        </LinearLayout>
+
 
         <TextView
             android:layout_width="match_parent"
@@ -41,12 +54,23 @@
             android:layout_marginBottom="2dp"
             android:text="Áp dụng cho đơn hàng tối thiểu"/>
 
-        <EditText
-            android:id="@+id/edtDieuKienKhuyenMai"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@drawable/custom_edittext"
-            android:layout_marginBottom="20dp"/>
+            android:layout_marginBottom="20dp">
+
+            <EditText
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:id="@+id/edtDieuKienKhuyenMai"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/custom_no_border"/>
+
+        </LinearLayout>
+
+
 
 
         <androidx.cardview.widget.CardView

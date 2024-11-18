@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/v1"
     tools:context=".activity.admin.ThemTheLoaiActivity">
 
     <androidx.appcompat.widget.Toolbar
@@ -28,12 +29,20 @@
             android:layout_marginTop="20dp"
             android:text="Tên thể loại"/>
 
-        <EditText
-            android:id="@+id/edtTenTheLoaiThem"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="@drawable/custom_edittext"
-            android:layout_marginBottom="20dp"/>
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/custom_edittext">
+            <EditText
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:id="@+id/edtTenTheLoaiThem"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/custom_no_border"
+                android:layout_marginBottom="20dp"/>
+        </LinearLayout>
 
 
         <androidx.cardview.widget.CardView

@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent"
+    android:background="@drawable/v1"
     tools:context=".activity.admin.ThemToppingActivity">
 
     <androidx.appcompat.widget.Toolbar
@@ -28,12 +29,21 @@
             android:layout_marginTop="20dp"
             android:text="Tên"/>
 
-        <EditText
-            android:id="@+id/edtTenToppingThem"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@drawable/custom_edittext"
-            android:layout_marginBottom="20dp"/>
+            android:layout_marginBottom="20dp">
+            <EditText
+                android:id="@+id/edtTenToppingThem"
+                android:layout_marginRight="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/custom_no_border"
+                android:layout_marginBottom="20dp"/>
+        </LinearLayout>
+
 
         <TextView
             android:layout_width="match_parent"
@@ -41,12 +51,22 @@
             android:layout_marginBottom="2dp"
             android:text="Giá"/>
 
-        <EditText
-            android:id="@+id/edtGiaToppingThem"
+
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@drawable/custom_edittext"
-            android:layout_marginBottom="20dp"/>
+            android:layout_marginBottom="20dp">
+            <EditText
+                android:id="@+id/edtGiaToppingThem"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/custom_no_border"
+                android:layout_marginBottom="20dp"/>
+        </LinearLayout>
 
 
         <androidx.cardview.widget.CardView

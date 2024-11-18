@@ -323,6 +323,14 @@ public class DatHangActivity extends AppCompatActivity {
         });
 
 
+        imgDatHangChinhSua.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
+
 
     }
 

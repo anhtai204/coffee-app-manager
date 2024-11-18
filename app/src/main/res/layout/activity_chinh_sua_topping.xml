@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/v1"
     tools:context=".activity.admin.ChinhSuaToppingActivity">
 
     <androidx.appcompat.widget.Toolbar
@@ -28,12 +29,21 @@
             android:layout_marginTop="20dp"
             android:text="Tên"/>
 
-        <EditText
-            android:id="@+id/edtTenToppingSua"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@drawable/custom_edittext"
-            android:layout_marginBottom="20dp"/>
+            android:layout_marginBottom="20dp">
+
+            <EditText
+                android:id="@+id/edtTenToppingSua"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_height="50dp"
+                android:background="@drawable/custom_no_border"/>
+        </LinearLayout>
+
 
         <TextView
             android:layout_width="match_parent"
@@ -41,12 +51,23 @@
             android:layout_marginBottom="2dp"
             android:text="Giá"/>
 
-        <EditText
-            android:id="@+id/edtGiaToppingSua"
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@drawable/custom_edittext"
-            android:layout_marginBottom="20dp"/>
+            android:layout_marginBottom="20dp">
+
+            <EditText
+                android:id="@+id/edtGiaToppingSua"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/custom_no_border"
+                android:layout_marginBottom="20dp"/>
+        </LinearLayout>
+
 
 
         <androidx.cardview.widget.CardView

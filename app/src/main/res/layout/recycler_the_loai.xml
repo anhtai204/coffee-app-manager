@@ -10,12 +10,13 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cvInfor"
         android:layout_width="320dp"
-        android:layout_height="50dp"
-        app:cardCornerRadius="5dp">
+        android:layout_height="55dp"
+        app:cardCornerRadius="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@drawable/custom_edittext"
             android:orientation="horizontal">
 
             <TextView

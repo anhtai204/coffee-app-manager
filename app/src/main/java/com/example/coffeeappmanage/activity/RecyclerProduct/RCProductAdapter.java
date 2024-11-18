@@ -56,7 +56,7 @@ public class RCProductAdapter extends RecyclerView.Adapter<RCProductAdapter.Prod
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
         Product product = modelArrayList.get(position);
         holder.rc_ten_sp.setText(product.getTenSanPham());
-        holder.rc_gioi_thieu.setText("Xin chao");
+        holder.rc_gioi_thieu.setText(product.getMo_ta());
 
         DecimalFormat formatStar = new DecimalFormat("0.0"); // Đảm bảo luôn hiển thị 1 chữ số thập phân
         String formatted_star = formatStar.format(product.getAverage_star());

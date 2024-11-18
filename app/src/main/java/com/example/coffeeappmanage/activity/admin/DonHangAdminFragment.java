@@ -54,7 +54,7 @@ public class DonHangAdminFragment extends Fragment {
             user = (User) getArguments().getSerializable("user");
 
             if (user != null) {
-                Log.d("OrderUserFragment", "User: " + user.toString());
+                Log.d("DonHangAdminFragment", "User: " + user.toString());
             }
         }
 
@@ -82,7 +82,15 @@ public class DonHangAdminFragment extends Fragment {
                     int statusCode = responseDonHang.getStatusCode();
                     String message = responseDonHang.getMessage();
 
-                    rcDonHangAdminAdapter.setData(listDonHangApi);
+                    List<DonHang> donHangDaDat = new ArrayList<>();
+                    for(DonHang dh : listDonHangApi){
+                        if(!dh.getStatus().equals("dathang")){
+                            donHangDaDat.add(dh);
+                        }
+                    }
+
+//                    rcDonHangAdminAdapter.setData(listDonHangApi);
+                    rcDonHangAdminAdapter.setData(donHangDaDat);
                     rcDonHangAdminAdapter.notifyDataSetChanged();
                 }
             }

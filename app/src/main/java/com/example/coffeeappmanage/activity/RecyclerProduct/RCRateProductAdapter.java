@@ -65,7 +65,7 @@ public class RCRateProductAdapter extends RecyclerView.Adapter<RCRateProductAdap
     public void onBindViewHolder(@NonNull RateProductViewHolder holder, int position) {
         Product product = modelArrayList.get(position);
         holder.rc_ten_sp_rate.setText(product.getTenSanPham());
-        holder.rc_gioi_thieu_rate.setText("Xin chao");
+        holder.rc_gioi_thieu_rate.setText(product.getMo_ta());
 
         DecimalFormat formatStar = new DecimalFormat("0.0");
         String formatted_star = formatStar.format(product.getAverage_star());

@@ -88,7 +88,15 @@ public class OrderUserFragment extends Fragment {
                     int statusCode = responseDonHang.getStatusCode();
                     String message = responseDonHang.getMessage();
 
-                    rcOrderUserAdapter.setData(listDonHangApi);
+                    List<DonHang> listDonHangDaDat = new ArrayList<>();
+                    for(DonHang dh : listDonHangApi){
+                        if(!dh.getStatus().equals("dathang")){
+                            listDonHangDaDat.add(dh);
+                        }
+                    }
+
+//                    rcOrderUserAdapter.setData(listDonHangApi);
+                    rcOrderUserAdapter.setData(listDonHangDaDat);
                     rcOrderUserAdapter.notifyDataSetChanged();
                 }
             }

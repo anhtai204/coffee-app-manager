@@ -61,7 +61,7 @@ public class AccountUserFragment extends Fragment {
             }
         }
 
-        toolbar = view.findViewById(R.id.toolbar);
+//        toolbar = view.findViewById(R.id.toolbar);
         tvPhanHoi = view.findViewById(R.id.tvPhanHoi);
         tvLienHe = view.findViewById(R.id.tvLienHe);
         tvDoiMatKhau = view.findViewById(R.id.tvDoiMatKhau);
