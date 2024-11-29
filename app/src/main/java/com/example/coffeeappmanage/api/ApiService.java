@@ -52,7 +52,8 @@ public interface ApiService {
             .create();
 
     ApiService apiService = new Retrofit.Builder()
-            .baseUrl("http://192.168.1.60:3000/")
+//            .baseUrl("https://3277-14-224-129-212.ngrok-free.app")
+            .baseUrl("http://10.10.34.49:3000")
 //            .baseUrl("http://192.168.1.8:3000")
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()

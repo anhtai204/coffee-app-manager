@@ -16,8 +16,8 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
-    <string name="local_host">http://192.168.1.60:3000</string>
-<!--    <string name="local_host">http://192.168.1.8:3000</string>-->
+    <string name="local_host">http://10.10.34.49:3000</string>
+<!--    <string name="local_host">https://3277-14-224-129-212.ngrok-free.app</string>-->
 
 
 
