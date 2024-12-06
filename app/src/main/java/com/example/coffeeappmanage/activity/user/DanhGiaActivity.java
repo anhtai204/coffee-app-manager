@@ -1,5 +1,6 @@
 package com.example.coffeeappmanage.activity.user;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -91,7 +92,9 @@ public class DanhGiaActivity extends AppCompatActivity {
                         public void onResponse(Call<Void> call, Response<Void> response) {
                             if (response.isSuccessful()) {
                                 // Xử lý phản hồi thành công
-                                Toast.makeText(DanhGiaActivity.this, "Đánh giá đã được gửi!", Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(DanhGiaActivity.this, "Đánh giá đã được gửi!", Toast.LENGTH_SHORT).show();
+                                Intent resultIntent = new Intent();
+                                setResult(Activity.RESULT_OK, resultIntent);
                                 finish();
                             } else {
                                 // Xử lý phản hồi không thành công

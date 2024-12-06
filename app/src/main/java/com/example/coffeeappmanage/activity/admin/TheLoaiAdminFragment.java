@@ -234,6 +234,4 @@ public class TheLoaiAdminFragment extends Fragment {
     }
 
 
-
-
 }

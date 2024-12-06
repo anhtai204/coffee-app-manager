@@ -1,5 +1,6 @@
 package com.example.coffeeappmanage.activity.admin;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -13,6 +14,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.coffeeappmanage.R;
 import com.example.coffeeappmanage.activity.effect.DepthPageTransformer;
+import com.example.coffeeappmanage.activity.user.HomeUserActivity;
 import com.example.coffeeappmanage.activity.user.ViewUserAdapter;
 import com.example.coffeeappmanage.model.User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -87,6 +89,22 @@ public class HomeAdminActivity extends AppCompatActivity {
             }
         });
         view_pager_admin.setPageTransformer(new DepthPageTransformer());
-
     }
+
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setMessage("Bạn muốn thoát không?")
+                .setTitle("Thoát")
+                .setCancelable(false)
+                .setPositiveButton("Có", (dialog, id) -> {
+                    HomeAdminActivity.super.onBackPressed();
+                })
+                .setNegativeButton("Không", (dialog, id) -> {
+                    onVisibleBehindCanceled();
+                })
+                .show();
+    }
+
+
 }

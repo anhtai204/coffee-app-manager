@@ -1,5 +1,6 @@
 package com.example.coffeeappmanage.activity.user;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -18,6 +19,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.coffeeappmanage.R;
+import com.example.coffeeappmanage.activity.admin.HomeAdminActivity;
 import com.example.coffeeappmanage.activity.effect.DepthPageTransformer;
 import com.example.coffeeappmanage.model.Product;
 import com.example.coffeeappmanage.model.User;
@@ -93,6 +95,20 @@ public class HomeUserActivity extends AppCompatActivity {
         });
         viewPager.setPageTransformer(new DepthPageTransformer());
         // kết thúc quản lí phần navigation home, order, account
+    }
 
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setMessage("Bạn muốn thoát không?")
+                .setTitle("Thoát")
+                .setCancelable(false)
+                .setPositiveButton("Có", (dialog, id) -> {
+                    HomeUserActivity.super.onBackPressed();
+                })
+                .setNegativeButton("Không", (dialog, id) -> {
+                    onVisibleBehindCanceled();
+                })
+                .show();
     }
 }

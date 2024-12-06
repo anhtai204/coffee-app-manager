@@ -17,6 +17,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
@@ -30,6 +34,7 @@ import com.example.coffeeappmanage.R;
 import com.example.coffeeappmanage.activity.RecyclerProduct.RCToppingAdapter;
 import com.example.coffeeappmanage.api.ApiService;
 import com.example.coffeeappmanage.model.DonHang;
+import com.example.coffeeappmanage.model.KhuyenMai;
 import com.example.coffeeappmanage.model.Product;
 import com.example.coffeeappmanage.model.ResponseCountRate;
 import com.example.coffeeappmanage.model.ResponseSingleDonHang;
@@ -165,6 +170,17 @@ public class OrderProductActivity extends AppCompatActivity {
             Log.d("gia", gia+"");
 
 
+            ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
+                    new ActivityResultContracts.StartActivityForResult(),
+                    new ActivityResultCallback<ActivityResult>() {
+                        @Override
+                        public void onActivityResult(ActivityResult result) {
+                            if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
+                                Toast.makeText(OrderProductActivity.this, "Đánh giá đã được gửi!", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+            );
 
             tvDanhGia = findViewById(R.id.tvDanhGia);
             imgDanhGia = findViewById(R.id.imgDanhGia);
@@ -176,7 +192,8 @@ public class OrderProductActivity extends AppCompatActivity {
                     data.putSerializable("product", product);
                     data.putSerializable("user", user);
                     intentDanhGia.putExtras(data);
-                    startActivity(intentDanhGia);
+//                    startActivity(intentDanhGia);
+                    activityResultLauncher.launch(intentDanhGia);
                 }
             });
             imgDanhGia.setOnClickListener(new View.OnClickListener() {
@@ -187,7 +204,8 @@ public class OrderProductActivity extends AppCompatActivity {
                     data.putSerializable("product", product);
                     data.putSerializable("user", user);
                     intentDanhGia.putExtras(data);
-                    startActivity(intentDanhGia);
+//                    startActivity(intentDanhGia);
+                    activityResultLauncher.launch(intentDanhGia);
                 }
             });
 
